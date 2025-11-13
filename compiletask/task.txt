@@ -1,0 +1,17 @@
+[
+  {
+    "label": "Build & Run C++",
+    "command": "powershell.exe",
+    "args": [
+      "-NoProfile",
+      "-ExecutionPolicy",
+      "Bypass",
+      "-Command",
+      "g++ -std=c++17 -Wall \"$ZED_FILE\" -o \"$ZED_DIRNAME\\$ZED_STEM.exe\"; if ($LASTEXITCODE -eq 0) { & \"$ZED_DIRNAME\\$ZED_STEM.exe\" } else { exit $LASTEXITCODE }"
+    ],
+    "presentation": {
+      "reveal": "always",
+      "panel": "new"
+    }
+  }
+]

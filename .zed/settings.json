@@ -1,0 +1,12 @@
+{
+  "lsp": {
+    "clangd": {
+      "binary": {
+        "path": "/path/to/clangd",
+        "arguments": [
+          "--function-arg-placeholders=0"
+        ]
+      }
+    }
+  }
+}

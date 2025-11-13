@@ -1,0 +1,37 @@
+1. How to initialize a dynamic array in CPP
+
+Logic: here the logic goes and the return true statements gets pushed into the array.
+
+Result: With this, the array can be printed out easily. 
+
+
+vector <int> name;
+
+for (int i = start; i <= end ; i++){
+  if (logic){
+    name.push_back(i)
+  }
+}
+
+2. Dynamic Array as a function:
+  
+vector <int> name (vector<int> &A){
+  int n =  A.size();
+}
+
+
+3. Two Dimensional Vector:
+
+  vector<int,int> name;
+
+  practice: 
+  
+  vector<int> name (vector<int> &A){
+    for (int i = start; i <=end; i++){
+      if(i % 2 == 0){
+        name.push_back(i)
+      }
+    }
+  }
+
+
