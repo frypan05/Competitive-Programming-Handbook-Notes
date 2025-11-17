@@ -48,6 +48,8 @@ void explainVectors(){
     vector<int> v = {1, 2, 3}; // initializer list
     v.push_back(4); // add element at the end
 
+    v.emplace_back(5); // add element at the end (Its faster than push_back)
+
     cout << "Elements:";
     for(int x : v) cout << ' ' << x; // range-for iteration
     cout << '\n';
@@ -87,3 +89,33 @@ void explainVectors(){
 
     cout << "final size: " << v.size() << '\n';
 }
+
+
+
+========================================================================
+
+vector<int> v3(5, 100);
+-> here, 5 is for the indexing, with values 100
+{ 100, 100, 100, 100, 100 }
+-> we can also use just 5 to put in 5 elements without allocating any values.
+{ 0, 0, 0, 0, 0 }
+
+
+
+NOW ITERATORS:
+
+dataStructure<dataType>::iterator name = .begin();
+
+ex: vector<int>::iterator it = v.begin();
+it++;
+cout << *(it) << " ";
+
+
+==> The iterators points to the elements of the vector./ to a certain garbage value for its memory allocation.
+(Points directly to the memory of the elements and not the elements themselves.)
+==> To iterate through array and vectors, we must use iterators.
+
+v.begin();
+v.end();  ===> this points just right outside the vector, in order to get the lsat element, we must do it--;
+v.rend(); reverse end.
+v.rbegin();
