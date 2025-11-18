@@ -182,3 +182,28 @@ pq.push(5);
 cout << pq.top() << endl; //prints 5
 pq.pop();
 cout << pq.top() << endl; //prints 4
+
+==============
+SET CONTAINER:
+==============
+stores in a sorted as well as unique manner.
+
+set<int> s;
+s.insert(1);
+s.insert(2);
+s.insert(3);
+
+auto it = s.find(2); // it returns an iterator that points to the element 2.
+
+if(it != s.end()) {
+    cout << "Found" << endl;
+}
+int cnt = s.count(2); // it returns the number of elements with the value 2.
+
+set<int> s1 = {1, 2, 3, 4};
+set<int> s2 = {3, 4, 5, 6};
+
+set<int> s3;
+s3 = s1 & s2; // intersection
+s3 = s1 | s2; // union
+s3 = s1 - s2; // difference
