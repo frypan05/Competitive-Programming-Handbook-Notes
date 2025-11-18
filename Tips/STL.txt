@@ -127,3 +127,58 @@ auto a = 5;
 Here, auto defines the datatype by itself to integer.
 auto b = "Hey";
 Here, auto defines the datatype by itself to string.
+
+DELETE FUNCTION (erase();)
+
+v.erase(v.begin()+ 1);
+
+===============
+LIST CONTAINER:
+===============
+
+list<int> ls;
+ls.push_back(2);
+ls.emplace_back(4);
+
+ls.push_front(5);
+ls.emplace_front(6);
+
+==============================================
+STACK CONTAINER: [ LIFO ] - [PUSH | POP | TOP]
+==============================================
+
+stack<int> st;
+st.push(1);
+st.push(2);
+st.push(3);
+
+cout << st.top() << endl;
+st.pop();
+cout << st.top() << endl;
+
+================================================
+QUEUE CONTAINER: [ FIFO ] - [PUSH | POP | FRONT]
+================================================
+queue<int> q;
+q.push(1);
+q.push(2);
+q.push(4);
+q.back() += 5; // the 4 becomes 9.
+
+cout << q.front() << endl; //prints 1
+q.pop();
+cout << q.front() << endl; //prints 2
+
+===========================================================
+PRIORITY QUEUE CONTAINER: [ MAX HEAP ] - [PUSH | POP | TOP]
+===========================================================
+Largest string/int stays at the top.
+priority_queue<int> pq;
+pq.push(1);
+pq.push(2);
+pq.push(4);
+pq.push(5);
+
+cout << pq.top() << endl; //prints 5
+pq.pop();
+cout << pq.top() << endl; //prints 4
