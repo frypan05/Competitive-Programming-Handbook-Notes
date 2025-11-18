@@ -118,4 +118,12 @@ cout << *(it) << " ";
 v.begin();
 v.end();  ===> this points just right outside the vector, in order to get the lsat element, we must do it--;
 v.rend(); reverse end.
-v.rbegin();
+v.rbegin(); if we put it++ then it will reverse traverse the vector.
+
+STL LIBRARY AUTO FUNCTION:
+==========================
+
+auto a = 5;
+Here, auto defines the datatype by itself to integer.
+auto b = "Hey";
+Here, auto defines the datatype by itself to string.
