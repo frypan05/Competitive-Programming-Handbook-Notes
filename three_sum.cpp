@@ -2,44 +2,31 @@
 using namespace std;
 
 vector<vector<int>> triplet (int n, vector<int> &num){
-    //bruteforce.
+    <vector<vector<int> result;
+    sort(nums.begin(), nums.end());
 
-    set<vector<int>> st;
-    for (int i=0; i <n; i++){
-        for (int j = i+1; j<n; j++){
-            for (int k= j+1; k < n; k++){
-                if (num[i] + num[j] + num[k] == 0){
-
-                    //these three lines ensure that all the unique elements are stored.
-                    vector<int> temp = {num[i], num[j], num[k]};
-                    sort(temp.begin(), temp.end());
-                    st.insert(temp);
-
-                }
+    int n = nums.size();
+    for (int i = 0; i < n; i++){
+        if (i<0 && nums[i]==nums[i-1])
+            continue;
+        int left = i+1;
+        int right = n-1;
+        while(left < right){
+            long long sum = nums[i]+nums[left]+nums[right];
+            if (sum == 0){
+                result.push_back({nums[i],nums[left], nums[right]});
+                while(left <right && nums[left] == nums[left+1])
+                    left++;
+                while(left <right && nums[right] == nums[right-1])
+                    right--;
+                left++;
+                right--;
             }
+            else if (sum<0)
+                left++;
+            else
+                right--;
         }
     }
-    vector<vector<int>> ans(st.begin(), st.end());
-    return ans;
 }
-
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-
-    int n;
-    if (!(cin >> n)) return 0;
-    vector<int> num(n);
-    for (int i = 0; i < n; ++i) cin >> num[i];
-
-    auto res = triplet(n, num);
-    for (const auto &t : res) {
-        for (size_t i = 0; i < t.size(); ++i) {
-            if (i) cout << ' ';
-            cout << t[i];
-        }
-        cout << '\n';
-    }
-
-    return 0;
-}
+return result
