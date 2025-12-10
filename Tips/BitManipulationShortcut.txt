@@ -1,0 +1,23 @@
+you can use:
+prefix = prefix * nums as:
+prefix*=nums;
+
+this is a shortcut for multiplication assignment in C++.
+how it works:
+it multiplies the current value of prefix by nums and assigns the result back to prefix.
+it's equivalent to:
+prefix = prefix * nums;
+
+// example:
+#include <iostream>
+using namespace std;
+int main() {
+    int prefix = 2;
+    int nums = 3;
+
+    // Using the shortcut
+    prefix *= nums; // equivalent to prefix = prefix * nums;
+
+    cout << "The value of prefix after multiplication is: " << prefix << endl; // Output: 6
+    return 0;
+}

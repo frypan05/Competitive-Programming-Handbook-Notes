@@ -20,3 +20,5 @@ When dealing with a data structure of buckets, it's important to consider the fo
             B2(2) -> (1,2) // B2 contains the nums whose frequency is 2.
             B3(3) -> ()
             B4(4) -> ()
+
+    this way, we can efficiently count and store the frequencies of elements in the array using buckets.
