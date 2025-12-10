@@ -1,0 +1,22 @@
+When dealing with a data structure of buckets, it's important to consider the following principles:
+ we store data for easy retrival and efficient access. without iterating over the array multiple times.
+    we use key-value pairs to map data effectively.
+    we aim for average O(1) time complexity for insertions, deletions, and lookups.
+
+    now, we can use these buckets to store frequencies of elements in an array. or count occurrences of elements efficiently.
+
+    for example, consider an array of integers where we want to count the frequency of each integer. we can use a hash table (unordered map) to achieve this.
+
+    nums = [1,2,2,3,1,4]
+         KEY TYPE      VALUE TYPE
+            1             2
+            2             2
+            3             1
+            4             1
+
+            now we store it the bucket.
+            there will be 4 buckets in total.
+            B1(1) -> (3,4) // B1 contains the nums whose frequency is 1.
+            B2(2) -> (1,2) // B2 contains the nums whose frequency is 2.
+            B3(3) -> ()
+            B4(4) -> ()

@@ -1,0 +1,39 @@
+In unordered maps, we declare key value pairs to to create a hash table mapping. it's syntax is as follows:
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <string>
+using namespace std;
+int main() {
+    // Declare an unordered map with string keys and int values
+    unordered_map<string, int> myMap;
+
+    // Insert key-value pairs into the unordered map
+    myMap["apple"] = 1;
+    myMap["banana"] = 2;
+    myMap["orange"] = 3;
+
+    // Access and print values using keys
+    cout << "The value associated with 'apple' is: " << myMap["apple"] << endl;
+    cout << "The value associated with 'banana' is: " << myMap["banana"] << endl;
+
+    // Iterate through the unordered map and print all key-value pairs
+    for (const auto& pair : myMap) {
+        cout << pair.first << ": " << pair.second << endl;
+    }
+
+    return 0;
+}
+
+
+--- Also,
+unordered_map<int,int> freq;
+here int is the key type and 2nd int is the value pair.
+This creates a hash table where the keys are of type int and the values are also of type int. You can use this to store frequencies or counts of integers, for example.
+
+nums = [1,2,2,3,1,4]
+   KEY TYPE      VALUE TYPE
+    1             2
+    2             2
+    3             1
+    4             1
