@@ -1,0 +1,32 @@
+In order to find the product of all elements in an array except for the current index, we can use a prefix and suffix product approach. This method allows us to compute the desired result without using division, which is particularly useful when the array contains zeros. Here's how it works:
+
+1. **Prefix Product**: We create an array `prefix` where each element at index `i` contains the product of all elements to the left of `i` in the original array.
+
+2. **Suffix Product**: Similarly, we create an array `suffix` where each element at index `i` contains the product of all elements to the right of `i` in the original array.
+
+3. **Final Result**: The final result for each index `i` can be obtained by multiplying the corresponding elements from the `prefix` and `suffix` arrays.
+
+PSEUDO CODE:
+
+For Prefix:
+
+vector<int>prefix;
+prefix[0] = 1; // since there are no elements to the left of the first element
+for (int i = 1; i < n; i++){
+prefix[i] = prefix[i-1] * nums[i-1];
+}
+
+For Suffix:
+
+vector<int>suffix;
+suffix[n-1] = 1; // since there are no elements to the right of the last element
+for (int i = n-2; i >= 0; i--){
+suffix[i] = suffix[i+1] * nums[i+1];
+}
+
+Final Result:
+vector<int>result;
+for (int i = 0; i < n; i++){
+result[i] = prefix[i] * suffix[i];
+}
+This approach ensures that we efficiently compute the product of all elements except for the current index in O(n) time complexity, with O(n) additional space for the prefix and suffix arrays.
