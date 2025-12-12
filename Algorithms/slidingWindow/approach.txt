@@ -1,0 +1,64 @@
+Content:
+
+1. What is it?
+2. When to use it?
+3. How it works?
+4. Different Types.
+5. Generic Template.
+6. LC Examples.
+
+
+1. Think of sliding window as a way to efficiently process a subset of data by focusing only on the relevant portion at any given time.
+
+TYPES OF SLIDING WINDOW:
+1. Fixed-size sliding window.
+
+-> This type of sliding window maintains a constant size as it moves over the data. It is useful when you need to analyze or compute values over a specific number of elements at a time.
+
+-> Used when we are already given the size of the window. For example: window_size = 3
+
+array = [5,3,1,-4,7,9]
+then window will be:
+[5,3,1]
+[3,1,-4]
+[1,-4,7]
+[-4,7,9]
+
+GENEREIC TEMPLATE FOR FIXED SIZE SLIDING WINDOW:
+
+initialize window_sum = 0;
+initialize max_result (or other required value)
+
+# Set up the initial window
+for i from 0 to k-1:
+    window_sum += array[i]
+max_result = window_sum # initialuze result.
+
+# Slide the window across the array
+for i from k to arr.length -1:
+    window_sum += array[i] - array[i - k] # add new element and remove the element going out of the window
+    max_result = max(max_result, window_sum) # update result if needed.
+
+return max_result (or other required value)
+
+
+2. Dynamic-size sliding window.
+-> This type of sliding window can change its size based on certain conditions or criteria. It is useful when the size of the subset you want to analyze is not fixed and may vary depending on the data.
+
+-> Used when we are not given the size of the window. For example: find the longest substring without repeating characters.
+
+GENERIC TEMPLATE FOR DYNAMIC SIZE SLIDING WINDOW:
+
+initialize window_start = 0
+initialize max_length = 0
+initialize a data structure to store characters in the current window (like a set or map)
+for window_end from 0 to arr.length -1:
+    add arr[window_end] to the data structure
+
+    while the current window is invalid (e.g., contains duplicates):
+        remove arr[window_start] from the data structure
+        window_start += 1 # shrink the window from the start
+
+    max_length = max(max_length, window_end - window_start + 1) # update max length if needed.
+
+return max_length
