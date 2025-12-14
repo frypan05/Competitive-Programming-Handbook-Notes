@@ -1,0 +1,22 @@
+Linux is NOT an operating system. It is a kernel that forms the core of many operating systems, commonly referred to as Linux distributions. These distributions combine the Linux kernel with various software packages to create a complete operating system. Popular Linux distributions include Ubuntu, Fedora, Debian, and CentOS, among others. Each distribution may have its own package management system, default software, and user interface, but they all share the Linux kernel at their core.
+
+Commands you must master:
+
+pwd: print world directory.
+
+cd .  > Represents current directory.
+cd .. > Represents parent directory. (To go back one level up).
+cd ~ > Represents home directory. (Shortcut to home directory).
+cd - > Takes you to the previous directory you were in.
+
+
+cp > Copy files or directories.
+mv > Move or rename files or directories.
+rm > Remove files or directories.
+
+
+[ ls, find, grep, awk, sed
+ps, top, htop, kill
+df, du, mount
+curl, wget, netstat, ss
+journalctl, systemctl ]
