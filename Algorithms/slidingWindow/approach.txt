@@ -62,3 +62,6 @@ for window_end from 0 to arr.length -1:
     max_length = max(max_length, window_end - window_start + 1) # update max length if needed.
 
 return max_length
+
+
+arr = [-1, 2, 3, 4, 5, -1]    k = 4;
