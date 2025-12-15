@@ -1,6 +1,4 @@
 *.exe
 .vscode
 .zed
-IT201
-IT301n
-A2Z
+*.json
