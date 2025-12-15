@@ -64,4 +64,7 @@ for window_end from 0 to arr.length -1:
 return max_length
 
 
-arr = [-1, 2, 3, 4, 5, -1]    k = 4;
+1. Constant window
+2. Longest substring/subarray with sum <= k;
+
+arr = [2, 5, 1, 7, 10]  k = 14
