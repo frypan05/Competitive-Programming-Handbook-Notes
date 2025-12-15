@@ -1,0 +1,1 @@
+//5 ways to remove loop in LL
