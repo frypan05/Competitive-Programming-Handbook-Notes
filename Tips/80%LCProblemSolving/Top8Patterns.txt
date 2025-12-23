@@ -1,0 +1,25 @@
+1. 2 pointer:
+2. Binary Tree BFS:
+3. Topological Sort:
+4. Binary Tree DFS:
+5. Top K Elements:
+6. Modified Binary Search:
+7. Subset:
+8. Sliding window:
+
+
+ Prefix Sum
+ Two Pointer
+ Sliding Window
+ Fast & Slow Pointer
+ Linked List In-Place Reversal
+ Monotonic Stack
+ Top 'k' Elements
+ Quick Select
+ Overlapping Intervals
+ Modified Binary Search
+ Depth-First Search(DFS)
+ Breadth-First Search(BFS)
+ Matrix Traversal
+ Backtracking
+ Dynamic Programming
