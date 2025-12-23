@@ -1,5 +1,63 @@
-These are curated [notes + pdf + tips + tricks + resources + Algorithms] for competitive programming.
+# Competitive Programming Handbook
 
+Curated collection of notes, PDFs, tips, tricks, resources, and algorithms for competitive programming.
 
-_github-pages-challenge-frypan05
-f3651a315d30cdd803be0a1cf2a44b
+## Contents
+
+### A2Z - Complete DSA Learning Path
+Comprehensive coverage organized by topic:
+- Arrays
+- Binary Search
+- Strings
+- Linked Lists
+- Recursion
+- Bit Manipulation
+- Stack and Queues
+- Sliding Window
+- Heaps
+- Greedy Approach
+- Binary Trees and BSTs
+- Graphs
+- Dynamic Programming
+- Tries
+- Hard String Problems
+
+### Algorithms
+- Bucket Sort
+- Sliding Window Techniques
+
+### Reference Materials
+- Lecture Notes - Detailed explanations of DSA concepts
+- Tips - Quick reference guides for common patterns
+- LeetCode Solutions - Problem solutions with explanations
+- Codeforces - CF-specific solutions
+- TCS NQT - Company preparation materials
+- Time/Space Complexity Analysis - Big-O notation guide
+
+### Practice Problems
+Numerous C++ implementations covering:
+- Classic problems (Two Sum, Container with Most Water, etc.)
+- Sorting algorithms (Bubble Sort, Selection Sort, Merge Sort, etc.)
+- Pattern printing and mathematical problems
+- Array manipulation (rotation, reversal, etc.)
+- String operations and manipulations
+
+## Getting Started
+
+1. Start with A2Z folder for structured learning from basics to advanced
+2. Check Tips folder for quick reference guides on patterns
+3. Review practice problems in root directory for implementation examples
+4. Use Lecture Notes for deeper understanding of concepts
+
+## Topics Covered
+
+Arrays and Strings, Searching and Sorting, Linked Lists, Trees and Graphs, Dynamic Programming, Greedy Algorithms, Bit Manipulation, Stack and Queue, Heaps and Priority Queues, Tries and Hashing
+
+## Technologies
+
+Language: C++ (primary), Python (some solutions)
+Focus: Data Structures, Algorithms, and Time/Space Optimization
+
+## License
+
+Personal learning resource for educational purposes.
