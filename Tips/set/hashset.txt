@@ -1,0 +1,47 @@
+Key differences between: Hashset, Hashmap, HashTable, Set, Unordered Set, Unordered Map, ordered map, unordered map, ordered set.
+
+1. HashSet:
+   - A collection that contains no duplicate elements.
+   - Implements the Set interface.
+   - Backed by a hash table (actually a HashMap instance).
+   - Does not maintain any order of elements.
+
+2. HashMap:
+   - A collection that maps keys to values.
+   - Implements the Map interface.
+   - Allows one null key and multiple null values.
+   - Does not maintain any order of keys.
+
+3. HashTable:
+   - A legacy class that is similar to HashMap but is synchronized.
+   - Does not allow null keys or values.
+   - Generally slower than HashMap due to synchronization overhead.
+   - Does not maintain any order of keys.
+
+4. Set:
+    - An interface that represents a collection of unique elements.
+    - Implemented by classes like HashSet, TreeSet, LinkedHashSet.
+    - Does not allow duplicate elements.
+    - The order of elements depends on the specific implementation.
+
+5. Unordered Set:
+    - A collection that contains no duplicate elements.
+    - Does not maintain any specific order of elements.
+    - Typically implemented using hash tables.
+
+6. Unordered Map:
+    - A collection that maps keys to values without maintaining any specific order.
+    - Typically implemented using hash tables.
+    - Allows for fast access, insertion, and deletion of key-value pairs.
+
+7. Ordered Map:
+    - A collection that maps keys to values while maintaining a specific order (usually based on the keys).
+    - Implemented by classes like TreeMap.
+    - Allows for sorted traversal of keys.
+
+8. Ordered Set:
+    - A collection that contains no duplicate elements while maintaining a specific order (usually based on the elements).
+    - Implemented by classes like TreeSet.
+    - Allows for sorted traversal of elements.
+
+in summary, the main differences lie in whether the collection allows duplicates, maintains order, and how it handles synchronization and null values.
