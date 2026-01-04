@@ -1,13 +1,13 @@
 #include<bits/stdc++.h>
 using namespace std;
 int main(){
-    // int n;
-    // int val;
-    // cin >> n;
-    // cin >> val;
+    int n;
+    int val;
+    cin >> n;
+    cin >> val;
 
-    // vector <int> nums(n);
-    // for (int i = 0; i < n; i++) cin >> nums[i];
+    vector <int> nums(n);
+    for (int i = 0; i < n; i++) cin >> nums[i];
     // // [3,2,2,3], val = 3
     // // I1: k = 0; i = 0;  nums[k] = 3 -> skip
     // // I2: k = 0; i = 1;  nums[k] = 2 -> nums[0] = 2; [2,2,2,3]; k = 1

@@ -8,5 +8,15 @@
         ]
       }
     }
+  },
+  "snippets": {
+    "cpp": [
+      {
+        "label": "cp",
+        "prefix": "cp",
+        "description": "Competitive Programming C++ Boilerplate",
+        "body": "#include <bits/stdc++.h>\nusing namespace std;\n\ntypedef long long ll;\ntypedef long double ld;\ntypedef pair<int, int> pii;\ntypedef pair<ll, ll> pll;\ntypedef vector<int> vi;\ntypedef vector<ll> vll;\n\n#define endl '\\n'\n#define pb push_back\n#define mp make_pair\n#define ff first\n#define ss second\n#define all(x) (x).begin(), (x).end()\n#define sz(x) (int)(x).size()\n\nconst int MOD = 1e9 + 7;\nconst int INF = 1e9;\nconst ll LLINF = 1e18;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(NULL);\n    \n    $0\n    \n    return 0;\n}"
+      }
+    ]
   }
 }
