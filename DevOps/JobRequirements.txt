@@ -1,0 +1,19 @@
+Technical Skills (Required):
+
+• Networking: TCP/IP, DNS, Load Balancing, Firewalls
+• Scripting: Bash/Shell
+• Programming: Python
+• Version Control: Git & branching strategies
+• CI/CD: Pipeline fundamentals & automation
+• Cloud: Basic AWS (EC2, S3, IAM, VPC)
+• Containers: Docker fundamentals & image management
+• Monitoring: Prometheus & Grafana Datadog basics
+• Kubernetes: Pods, Services & Deployment fundamentals
+
+
+-Terraform
+-Ansible
+-Docker
+-Kubernetes
+-Jenkins
+-CloudFormation
