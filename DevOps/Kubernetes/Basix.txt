@@ -1,0 +1,42 @@
+Think of Kubernetes in this way:
+
+You're at a orchestra. The guys playing the tools are the containers, and the guy (conductor of the orchestra) is kubernetes.
+
+
+Auto Scale: It can scale containers across multiple machines.
+Auto Heal: If one container fails then it know how to replace it with a new one.
+
+A system deployed on Kubernetes is known as a cluster.
+The brain of the operation is known as the control plane. It exposes the api servers. It can handle both internal and external requests to manage a cluster.
+
+
+It contains its own key-value database called ETCD (pronounced as aet-CD): Store data about the clusters.
+What it is managing? One or more worker machines called nodes. When you hear node, think of it as a machine. Each node is running something called Kubelet.
+
+A kubelet is a tiny application which runs on machine to communicate back with the mother ship.
+Inside each node, we have multiple pods(smallest deployable unit in kubernetes).
+
+When you hear pod, think of it as a pod of whales or containers running together.
+As the workload increases, Kubernetes can automatically scale horizontally by adding more nodes to the cluster.
+
+HIGH AVAILABILITY. by maintaining a replica set.(set of running pods or containers ready to go at given time.)
+
+
+
+
+code::
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: nginx-deployment
+spec:
+    replicas: 3
+    containers:
+    - name: nginx
+      image: nginx:1.14.2
+      ports:
+      -containerPort: 80
+      volumes:
+      - name: cool-volume
