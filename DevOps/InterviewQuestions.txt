@@ -1,0 +1,18 @@
+1. Let us assume, i want to create a pipeline in jenkins, which needs to have 10 different stages. Now based o my input, it needs to execute some specific stages, not all stages.
+(Hint: Write conditions for every stage.)
+
+2. What is the difference between ansible playbook and ansible role?
+2.1 Which scenario will you go with role and which scenario will you go with playbook?
+
+3. What is the docker homepath? (/var/lib/doc)
+
+4. Let us say you have jenkins running our pipeline, and you have a server where docker is installed. (Jenkins agent is installed). Now, you are triggering some dockerfile execution in that server. So you trigger a pipeline, the pipeline will go to some server X and there it will start executing dockerfiles.
+So till yesterday night, it was working fine, but after coming back to work today, it started failing because of a space issue. But when you checked the server level space, we have pretty much free space in the server. but still it is saying server space issue. So how are you going to troubleshoot this?
+
+
+5. Write down a sample Dockerfile.
+5.1 Linux environment with some webserver maybe like Nginx/tomcat. and i want to deploy a static website.
+
+6. What is the difference between entrypoint and cmd in the dockerfile
+
+7. Explain the architecture of Kubernetes and the component uses in the Kubernetes. (Two levels- Control Plane and Data Plane)

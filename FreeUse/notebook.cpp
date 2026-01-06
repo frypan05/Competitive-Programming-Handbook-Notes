@@ -37,6 +37,7 @@ int main(){
 #include<bits/stdc++.h>
 using namespace std;
 
+/*
 class A{
     private:
     int a,b;
@@ -55,5 +56,22 @@ int A::Multiplication(){
 int main(){
     A obj(5,6);
     cout<< obj.Multiplication();
+    return 0;
+}
+*/
+
+// THIS:
+class Node{
+    private:
+        int data;
+        Node* next;
+    public:
+        Node(int x){
+            this -> data = x;
+            this -> next = NULL;
+        }
+};
+int main(){
+    Node* n = new Node(5);
     return 0;
 }
