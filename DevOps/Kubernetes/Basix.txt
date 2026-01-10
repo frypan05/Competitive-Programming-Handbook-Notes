@@ -22,7 +22,7 @@ As the workload increases, Kubernetes can automatically scale horizontally by ad
 HIGH AVAILABILITY. by maintaining a replica set.(set of running pods or containers ready to go at given time.)
 
 
-
+Install devbox to /usr/local/bin
 
 code::
 

@@ -1,0 +1,74 @@
+DevOps is not tools, it’s fundamentals + automation.
+
+⸻
+
+ 2️⃣ Linux & Scripting
+• Bash scripting
+• Cron jobs
+• File permissions
+• Process & memory management
+
+ Goal: Automate daily tasks
+
+⸻
+
+ 3️⃣ Containers (Docker)
+• Containers vs VMs
+• Dockerfile
+• Docker Compose
+• Image optimization
+
+ Solves “it works on my machine”
+
+⸻
+
+ 4️⃣ Kubernetes
+• Pods, Services, Deployments
+• Scaling & rolling updates
+• ConfigMaps & Secrets
+• Helm basics
+
+ Production-level orchestration
+
+⸻
+
+ 5️⃣ Cloud (Choose ONE)
+• AWS / Azure / GCP
+• Compute, storage, networking
+• Load balancers & auto-scaling
+
+ DevOps without cloud is incomplete
+
+⸻
+
+ 6️⃣ CI/CD Pipelines
+• Jenkins / GitHub Actions
+• Build → Test → Deploy
+• Blue-green & canary deployments
+
+ Faster & safer releases
+
+⸻
+
+ 7️⃣ Infrastructure as Code
+• Terraform
+• Ansible
+• Infra in Git
+
+ Repeatable & scalable infrastructure
+
+⸻
+
+ 8️⃣ Monitoring & Logging
+• Prometheus & Grafana
+• ELK Stack
+• Alerts & incident handling
+
+ Detect issues before users do
+
+⸻
+
+ 9️⃣ Security Basics
+• Secrets management
+• IAM & access control
+• HTTPS & TLS

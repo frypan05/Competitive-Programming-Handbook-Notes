@@ -16,3 +16,43 @@ So till yesterday night, it was working fine, but after coming back to work toda
 6. What is the difference between entrypoint and cmd in the dockerfile
 
 7. Explain the architecture of Kubernetes and the component uses in the Kubernetes. (Two levels- Control Plane and Data Plane)
+
+
+
+===========================================================================================================
+
+DevOps Interview Notes
+1. Terraform State File: Stores mapping between Terraform config and real infrastructure.
+2. State File Storage: Local or Remote (S3 + DynamoDB, Terraform Cloud).
+3. Null Resource: Used to run scripts without creating real infra.
+4. CI/CD: Automates build, test, and deployment pipeline.
+5. EC2 via Terraform: Uses aws_instance resource.
+6. Commenting Resource: Terraform plans to destroy it.
+7. Largest/Smallest Array: Iterate and compare values.
+8. ENTRYPOINT vs CMD: ENTRYPOINT is fixed, CMD is overrideable.
+9. ADD vs COPY: COPY is preferred and safer.
+10. Kubernetes Architecture: Master + Worker nodes.
+11. Ansible: Agentless configuration management tool.
+12. Secrets vs ConfigMap: Sensitive vs non-sensitive data.
+13. Docker Lifecycle: Build → Run → Stop → Remove.
+14. ReplicaSet: Maintains desired pod count.
+15. Single Node K8s: Minikube, Kind.
+16. Remove file from Git: git rm --cached.
+17. Check merged branch: git branch --merged.
+18. ALB vs NLB: Layer 7 vs Layer 4.
+19. Route53: AWS DNS service.
+20. GCP: Compute, GKE, Storage.
+21. Jenkins Pipelines: Single vs multiple.
+22. Pipeline Issues: Complexity vs coordination.
+23. Jenkins Version: Use latest LTS.
+24. Jenkins + Terraform: Init, Plan, Apply.
+25. Create 10 EC2: Use count.
+26. Terminate EC2: Reduce count.
+27. On-prem to VPC: VPN / Direct Connect.
+28. Terraform Taint: Recreates resource.
+29. Terraform Refresh: Sync state.
+30. Manual Change: Terraform reverts drift.
+31. Terraform Module: Reusable code.
+32. CloudTrail: API auditing.
+33. Load Balancer & Auto Scaling: Traffic + scaling.
+34. Databricks: Spark-based analytics platform

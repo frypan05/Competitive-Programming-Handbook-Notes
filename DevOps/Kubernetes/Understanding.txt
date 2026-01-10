@@ -1,0 +1,72 @@
+- how does kubernetes auto scale? like who gives the permission to add more nodes to the control plane and the data plane inside the cluster? like how does it scale under high workload?
+
+1. Pod-level autoscaling (within existing nodes)
+
+- **Horizontal Pod Autoscaler (HPA)**: Scales the number of pod replicas for a deployment/statefulset/replicaset based on metrics (CPU %, memory, custom metrics). It runs in the control plane and calls the Kubernetes API to adjust the `spec.replicas`.
+
+- **Vertical Pod Autoscaler (VPA)**: Suggests or applies new CPU/memory requests/limits for pods based on historical usage. It evicts/recreates pods with updated resources if you enable it.
+
+2. Node-level autoscaling (bringing in more worker nodes)
+
+- **Cluster Autoscaler (CA)**: Talks to your underlying infrastructure provider (GCP, AWS, Azure, etc.). It monitors pending pods that can’t schedule due to lack of resources. When it detects that, it calls the cloud provider APIs to scale out the node group (e.g., add EC2 instances, GCE instances). This requires IAM/service account permissions that you configure—Kubernetes itself doesn’t own the permissions. You typically deploy CA with credentials that can scale the specific auto-scaling group / managed instance group.
+
+Similarly, when nodes stay underutilized for a while, the Cluster Autoscaler can cordon and drain one, then ask the provider to remove it. So the “permission” is provided by whoever set up those cloud credentials.
+
+---------------------------------------------------------------------------------------------------------
+A pod and a kubelet sit at very different layers in Kubernetes:
+
+- **Pod**: The smallest deployable unit in Kubernetes. It’s an object in the API server and represents one or more tightly coupled containers sharing the same network namespace, storage volumes, and lifecycle. You declare pods via manifests (usually indirectly via deployments, statefulsets, etc.), and the scheduler assigns them to nodes. Pods hold your app workloads; they’re what actually run the containers.
+
+- **Kubelet**: The node agent that runs on every worker (and control-plane) node. It:
+  1. Watches the API server for pods scheduled to its node.
+  2. Talks to the container runtime (containerd, Docker, CRI-O) to create and manage the containers for those pods.
+  3. Reports node and pod status back to the control plane.
+  4. Enforces pod-level specs like liveness/readiness probes and resource limits.
+
+So pods are your workload units, while kubelets are the per-node daemons responsible for making sure those pods actually run on their assigned nodes.
+
+
+===========================================================
+
+To get some Kubernetes hands-on experience without burning a lot of disk space, you can run a tiny local cluster inside Docker containers using a tool like **kind** (Kubernetes in Docker). That way, you only need:
+
+- Docker itself (which you already have)
+- The `kubectl` CLI (~50 MB)
+- The `kind` binary (~50 MB)
+- A single Kubernetes node image (~400–500 MB pulled once)
+
+Here’s a lightweight workflow you can follow:
+
+1. **Install `kubectl`**
+   Download the Windows binary from the official release page, place it somewhere on your PATH, and verify with `kubectl version --client`.
+
+2. **Install `kind`**
+   Download the Windows `kind.exe` from <https://kind.sigs.k8s.io/> (also tiny). Check with `kind version`.
+
+3. **Create a cluster inside Docker**
+   ```/dev/null/commands.sh#L1
+   kind create cluster --name demo --image kindest/node:v1.29.4
+   ```
+   This spins up control-plane components inside Docker containers. No extra VM or heavy ISO is needed.
+
+4. **Point kubectl to that cluster**
+   `kind` automatically updates your kubeconfig, so `kubectl get nodes` should already show the single node named `demo-control-plane`.
+
+5. **Apply your nginx manifest**
+   Reuse the manifest from earlier (save it locally) and apply it:
+   ```/dev/null/commands.sh#L3
+   kubectl apply -f nginx-pod.yaml
+   kubectl get pods -w
+   ```
+   When it reaches `Running`, you can even port-forward:
+   ```/dev/null/commands.sh#L6
+   kubectl port-forward pod/nginx-pod 8080:80
+   ```
+   Then browse to `http://localhost:8080`.
+
+6. **Clean up**
+   When you’re done, remove everything with:
+   ```/dev/null/commands.sh#L9
+   kind delete cluster --name demo
+   ```
+   That frees most of the space immediately (you can prune Docker images later if needed).
