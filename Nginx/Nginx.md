@@ -7,7 +7,7 @@
 
 ## **Forward Proxy (The VPN Model)**
 
-![[Pasted image 20260117215102.png]]
+![[img/Pasted image 20260117215102.png]]
 
 In a forward proxy, multiple clients send requests to a single proxy server (like a VPN). The proxy then forwards these requests to the internet/server on behalf of the clients.
 
