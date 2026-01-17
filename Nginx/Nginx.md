@@ -7,7 +7,7 @@
 
 ## **Forward Proxy (The VPN Model)**
 
-![[img/Pasted image 20260117215102.png]]
+![](img/Pasted%20image%2020260117215102.png)
 
 In a forward proxy, multiple clients send requests to a single proxy server (like a VPN). The proxy then forwards these requests to the internet/server on behalf of the clients.
 
@@ -18,7 +18,7 @@ In a forward proxy, multiple clients send requests to a single proxy server (lik
 
 ### **1. Reverse Proxy (The Nginx Model)**
 
-![[Pasted image 20260117215220.png]]
+![](img/Pasted%20image%2020260117215220.png)
 
 In a reverse proxy, the client sends a request to Nginx, and Nginx decides which backend server should handle it.
 
@@ -31,7 +31,7 @@ If you have multiple servers running the same application, Nginx can distribute 
 
 ### **3. HTTP Caching**
 
-Nginx can store copies of frequently requested content (like images or videos). When a second user requests the same file, Nginx serves it from its own cache instead of asking the backend server, making the cycle much faster.
+Nginx can store copies of frequently requested content (like%20images or videos). When a second user requests the same file, Nginx serves it from its own cache instead of asking the backend server, making the cycle much faster.
 
 ### **4. High Concurrency
 
@@ -39,11 +39,11 @@ Can handle **10,000+ concurrent requests** efficiently.
 
 ### **5. Static File Serving
 
-It is excellent at serving static files (CSS, JS, Images, Videos) directly without involving Node.js.
+It is excellent at serving static files (CSS, JS, images, Videos) directly without involving Node.js.
 
 ### **6. API Gateway
 
-![[Pasted image 20260117225434.png]]
+![](img/Pasted%20image%2020260117225434.png)
 
 It can route requests based on paths (e.g., `/admin` goes to Server A, while `/settings` goes to Server B).
 
@@ -149,7 +149,7 @@ Once reloaded, visiting the server's IP or `localhost` will show the plain text 
 
 Nginx is highly efficient at serving **static files** (content that doesn't change based on user input).
 
-* **Examples of Static Files:** `index.html`, JavaScript files (`.js`), CSS files (`.css`), Images (`.jpg`, `.png`), and Videos (`.mp4`).
+* **Examples of Static Files:** `index.html`, JavaScript files (`.js`), CSS files (`.css`), images (`.jpg`, `.png`), and Videos (`.mp4`).
 
 * **Why use Nginx?** Using a web server like Nginx to serve these files is faster and allows for better caching compared to using an application server like Node.js.
 
@@ -162,7 +162,7 @@ The `root` directive tells Nginx where the website files are stored on the serve
 ### **Implementation Steps:**
 
 1. **Create a Folder:** Create a directory within your file system for your website (e.g., `/etc/nginx/website`).
-![[Pasted image 20260118041207.png]]
+![](img/Pasted%20image%2020260118041207.png)
 
 2. **Add an Index File:** Place an `index.html` file inside that folder. Nginx automatically looks for `index.html` as the default file to serve.
 
@@ -215,7 +215,7 @@ http {
 ## **3. The Importance of MIME Types**
 
 Nginx is smart, but by default, it might treat every file (except HTML) as **plain text** (`text/plain`).
-![[Pasted image 20260118042329.png]]
+![](img/Pasted%20image%2020260118042329.png)
 
 ### **The Problem:**
 
@@ -234,17 +234,17 @@ then add below snipped in the head tag
 ```
 
 then reload with nginx -s reload
-![[Pasted image 20260118043120.png]]
-![[Pasted image 20260118043238.png]]
-![[Pasted image 20260118043346.png]]
+![](img/Pasted%20image%2020260118043120.png)
+![](img/Pasted%20image%2020260118043238.png)
+![](img/Pasted%20image%2020260118043346.png)
 
-![[Pasted image 20260118043557.png]]
+![](img/Pasted%20image%2020260118043557.png)
 
 then
-![[Pasted image 20260118043728.png]]
+![](img/Pasted%20image%2020260118043728.png)
 
 but since add our own types{} in config file, it lost its default html detection
-![[Pasted image 20260118044243.png]]
+![](img/Pasted%20image%2020260118044243.png)
 then we would have to edit the types to
 
 ```nginx
@@ -260,7 +260,7 @@ you may want to use below comm to check for syntax and testing of config file
 nignx -t
 ```
 
-![[Pasted image 20260118044013.png]]
+![](img/Pasted%20image%2020260118044013.png)
 
 ### **The Solution: `mime.types`**
 
