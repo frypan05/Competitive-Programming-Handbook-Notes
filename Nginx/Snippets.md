@@ -53,3 +53,15 @@ sudo systemctl reload nginx  # Reload configuration
 sudo systemctl status nginx
 ```
 
+## Mounts Nginx
+
+```nginx
+server {
+     listen 80;
+     server_name app.example.c;
+     
+     location / {
+       proxy_pass http://127.0.0.1:3000/;
+     }
+   }
+```

@@ -5,7 +5,7 @@
 
 ---
 
-## **Forward Proxy (The VPN Model)**
+### **Forward Proxy (The VPN Model)**
 
 ![](img/Pasted%20image%2020260117215102.png)
 
@@ -14,6 +14,7 @@ In a forward proxy, multiple clients send requests to a single proxy server (lik
 * **The Server** doesn't know which specific client is asking.
 
 ---
+
 ## **Key Advantages of Nginx**
 
 ### **1. Reverse Proxy (The Nginx Model)**
@@ -33,21 +34,21 @@ If you have multiple servers running the same application, Nginx can distribute 
 
 Nginx can store copies of frequently requested content (like%20images or videos). When a second user requests the same file, Nginx serves it from its own cache instead of asking the backend server, making the cycle much faster.
 
-### **4. High Concurrency
+### **4. High Concurrency**
 
 Can handle **10,000+ concurrent requests** efficiently.
 
-### **5. Static File Serving
+### **5. Static File Serving**
 
 It is excellent at serving static files (CSS, JS, images, Videos) directly without involving Node.js.
 
-### **6. API Gateway
+### **6. API Gateway**
 
 ![](img/Pasted%20image%2020260117225434.png)
 
 It can route requests based on paths (e.g., `/admin` goes to Server A, while `/settings` goes to Server B).
 
-### **7. SSL Termination
+### **7. SSL Termination**
 
 Nginx can handle SSL certificates (HTTPS) so your backend servers don't have to deal with the encryption overhead.
 
@@ -141,7 +142,7 @@ Once reloaded, visiting the server's IP or `localhost` will show the plain text 
 
 ---
 
-# **Serving Static Files with Nginx
+# **Serving Static Files with Nginx**
 
 <https://docs.nginx.com/nginx/admin-guide/web-server/serving-static-content/>
 
