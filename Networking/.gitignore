@@ -1,0 +1,43 @@
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Docker
+.env
+*.log
+
+# Examples data
+examples/**/data/
+examples/**/logs/
+*.sqlite
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Node modules (if any examples use Node.js)
+node_modules/
+package-lock.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+*.egg-info/
+
+# SSL certificates (don't commit real certs!)
+*.crt
+*.key
+*.pem
+!examples/**/ssl/README.md
