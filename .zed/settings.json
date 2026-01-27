@@ -1,4 +1,6 @@
 {
+  "show_wrap_guides": true,
+  "project_name": "InterviewPrep",
   "lsp": {
     "clangd": {
       "binary": {
