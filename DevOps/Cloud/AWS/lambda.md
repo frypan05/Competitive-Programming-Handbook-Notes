@@ -5,6 +5,8 @@
 - Pay-per-use: charged for request count and execution time (per ms) based on memory size.
 - Scales automatically by creating concurrent execution environments.
 - Ideal for event-driven workloads: API calls, file drops, queue/stream processing, scheduled jobs, lightweight ETL, glue logic between services.
+- **EventBridge**: AWS’s serverless event bus + scheduler, routes events between services and supports cron/rate-based scheduling.
+- **Cron job**: a scheduled task run on a defined cron expression (e.g., every 5 minutes); in AWS, typically implemented via EventBridge Scheduler/Rules triggering Lambda.
 
 ## 2) Core execution model
 - Lifecycle phases:
@@ -46,6 +48,7 @@ def handler(event, context):
   - **Synchronous**: API Gateway, ALB, Function URL, direct SDK invoke.
   - **Asynchronous**: S3, EventBridge, SNS — Lambda manages retries & DLQ/destinations.
   - **Poll-based**: SQS, Kinesis, DynamoDB Streams — Lambda service polls and batches records.
+- **EventBridge basics**: central event bus with rules to filter/route events (including SaaS/partner events) and a Scheduler that supports cron/rate expressions for cron-like jobs.
 
 ## 5) Concurrency & scaling
 - **Unreserved concurrency**: shared pool per account/region.
@@ -120,7 +123,7 @@ def handler(event, context):
 - **API backend**: API Gateway/ALB/Function URL → Lambda → DB/other services.
 - **Async workers**: SNS/SQS/EventBridge → Lambda → downstream service.
 - **Stream processing**: Kinesis/DynamoDB Streams → Lambda → transform/route.
-- **Cron**: EventBridge Scheduler/Rules → Lambda.
+- **Cron**: EventBridge Scheduler/Rules → Lambda. (Cron job = scheduled execution defined by cron expression, e.g., run every hour.)
 - **Fan-out**: S3 → EventBridge → multiple Lambdas; SNS topic → multiple Lambdas.
 - **Data pipelines**: S3 ingest → Lambda transform → S3/Glue/Athena/Redshift.
 
