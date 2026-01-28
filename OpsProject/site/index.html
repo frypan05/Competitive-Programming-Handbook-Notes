@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>DevOps Insights | Daksh Sharma</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="DevOps Engineer specializing in Docker, Terraform, Kubernetes, and Cloud Infrastructure.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="profile-header">
+        <h1>Daksh Sharma</h1>
+        <div class="status">
+          <span class="dot"></span>
+          <span class="status-text">Chase Entropy</span>
+        </div>
+      </div>
+      <p class="bio">
+        DevOps Engineer focused on building resilient infrastructure. I write about <strong>Cloud Native</strong> ecosystem, automating the boring stuff with <strong>Python</strong>, and scaling <strong>Kubernetes</strong> clusters. Currently scaling personal projects infrastructure.
+      </p>
+
+      <nav class="social-links">
+        <a href="https://github.com/frypan05">GitHub</a>
+        <a href="https://www.linkedin.com/in/dakshsharma05">LinkedIn</a>
+        <a href="https://www.dakshsharma.tech">Portfolio</a>
+      </nav>
+    </header>
+
+    <main>
+      <!-- Search and Filter -->
+      <section>
+        <div style="margin-bottom: 24px;">
+          <input type="text" id="searchInput" placeholder="Search notes..." style="width: 100%; padding: 12px 16px; background: var(--hover-bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text-primary); font-size: 15px; font-family: inherit;">
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px;" id="categoryFilters">
+          <button class="filter-btn active" data-category="all">All</button>
+          <button class="filter-btn" data-category="Ansible">Ansible</button>
+          <button class="filter-btn" data-category="AWS">AWS</button>
+          <button class="filter-btn" data-category="Docker">Docker</button>
+          <button class="filter-btn" data-category="Jenkins">Jenkins</button>
+          <button class="filter-btn" data-category="Kubernetes">Kubernetes</button>
+          <button class="filter-btn" data-category="Terraform">Terraform</button>
+          <button class="filter-btn" data-category="Networking">Networking</button>
+          <button class="filter-btn" data-category="Nginx">Nginx</button>
+          <button class="filter-btn" data-category="Linux">Linux</button>
+          <button class="filter-btn" data-category="DevOps">DevOps</button>
+        </div>
+      </section>
+
+      <!-- Dynamic Content Area -->
+      <section id="contentArea">
+        <h2 class="section-title">Learning Resources <span id="itemCount" style="font-weight: 400; color: var(--text-muted);"></span></h2>
+        <div id="dynamicContentList" style="margin-top: 16px;">
+          <div style="text-align: center; padding: 32px; color: var(--text-muted);">Loading content...</div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      <p>© 2026 Daksh Sharma. Chase Entropy.</p>
+    </footer>
+  </div>
+
+  <div class="toast-overlay" id="toastOverlay" aria-hidden="true">
+    <div class="toast-card" role="dialog" aria-modal="true" aria-labelledby="toastTitle">
+      <button class="toast-close" id="toastClose" aria-label="Close">×</button>
+      <h3 class="toast-title" id="toastTitle"></h3>
+      <div class="toast-meta" id="toastMeta"></div>
+      <div class="toast-body" id="toastBody"></div>
+    </div>
+  </div>
+
+  <script>
+    // Content Index Management
+    const contentIndexUrl = 'content-index.json';
+    let allContent = [];
+    let filteredContent = [];
+    let currentCategory = 'all';
+    let searchQuery = '';
+
+    // Posts Management
+    const postsUrl = 'posts.json';
+    const fallbackPosts = [
+      {
+        slug: 'zero-downtime-k8s-upgrades',
+        title: 'Zero-Downtime K8s Upgrades: A Definitive Guide',
+        year: '2025',
+        body: 'Plan node upgrades with surge rollouts, PodDisruptionBudgets, and maxUnavailable=0. Use partitioned rollouts for StatefulSets, cordon/drain with eviction APIs, and run conformance smoke tests after each node pool batch.'
+      },
+      {
+        slug: 'terraform-module-patterns-multi-region-aws',
+        title: 'Terraform Module Patterns for Multi-Region AWS',
+        year: '2025',
+        body: 'Standardize provider aliases per region, wrap remote state with data sources, and expose region-bound modules via composition (core + env). Use for_each on workspaces for DR pairs and keep IAM boundaries versioned alongside modules.'
+      },
+      {
+        slug: 'distroless-docker-image-size-reduction',
+        title: 'Reducing Docker Image Size by 80% with Distroless',
+        year: '2025',
+        body: 'Multi-stage builds: builder -> distroless/base. Copy only binaries + certs, strip symbols, use --chown for deterministic layers, and pin libc/ssl. Validate with docker scout and run-time scan before rollout.'
+      },
+      {
+        slug: 'gitops-argocd-helm-right-way',
+        title: 'GitOps with ArgoCD and Helm: The Right Way',
+        year: '2025',
+        body: 'Layered Helm: app chart + env values + ArgoCD ApplicationSets. Enable health checks, sync waves for CRDs, and auto-prune. Protect with SSO, project-level RBAC, and drift detection alerts with commit SHAs in notifications.'
+      }
+    ];
+    let posts = [...fallbackPosts];
+
+    // Toast Modal Elements
+    const overlay = document.getElementById('toastOverlay');
+    const titleEl = document.getElementById('toastTitle');
+    const metaEl = document.getElementById('toastMeta');
+    const bodyEl = document.getElementById('toastBody');
+    const closeBtn = document.getElementById('toastClose');
+
+    // Dynamic Content Elements
+    const searchInput = document.getElementById('searchInput');
+    const contentList = document.getElementById('dynamicContentList');
+    const itemCount = document.getElementById('itemCount');
+
+    // Markdown to HTML converter
+    const parseMarkdown = (md) => {
+      let html = md;
+
+      // Remove frontmatter if present
+      html = html.replace(/^---[\s\S]*?---\n*/m, '');
+
+      // Escape HTML
+      html = html.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+      // Code blocks (must be before inline code)
+      html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+        return `<pre><code class="language-${lang || 'text'}">${code.trim()}</code></pre>`;
+      });
+
+      // Headers (h1-h6)
+      html = html.replace(/^######\s+(.+)$/gm, '<h6>$1</h6>');
+      html = html.replace(/^#####\s+(.+)$/gm, '<h5>$1</h5>');
+      html = html.replace(/^####\s+(.+)$/gm, '<h4>$1</h4>');
+      html = html.replace(/^###\s+(.+)$/gm, '<h3>$1</h3>');
+      html = html.replace(/^##\s+(.+)$/gm, '<h2>$1</h2>');
+      html = html.replace(/^#\s+(.+)$/gm, '<h1>$1</h1>');
+
+      // Horizontal rules
+      html = html.replace(/^---$/gm, '<hr>');
+      html = html.replace(/^\*\*\*$/gm, '<hr>');
+
+      // Bold and italic (must be before single *)
+      html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+      html = html.replace(/___(.+?)___/g, '<strong><em>$1</em></strong>');
+      html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      html = html.replace(/__(.+?)__/g, '<strong>$1</strong>');
+      html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+      html = html.replace(/_(.+?)_/g, '<em>$1</em>');
+
+      // Inline code
+      html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+      // Links
+      html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+
+      // Images
+      html = html.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width: 100%; height: auto; border-radius: 8px; margin: 8px 0;">');
+
+      // Unordered lists
+      html = html.replace(/^\*\s+(.+)$/gm, '<li>$1</li>');
+      html = html.replace(/^-\s+(.+)$/gm, '<li>$1</li>');
+      html = html.replace(/(<li>.*<\/li>\n?)+/g, (match) => `<ul>${match}</ul>`);
+
+      // Ordered lists
+      html = html.replace(/^\d+\.\s+(.+)$/gm, '<li>$1</li>');
+      html = html.replace(/(<li>.*<\/li>\n?)+/g, (match) => {
+        if (!match.includes('<ul>')) {
+          return `<ol>${match}</ol>`;
+        }
+        return match;
+      });
+
+      // Blockquotes
+      html = html.replace(/^&gt;\s+(.+)$/gm, '<blockquote>$1</blockquote>');
+      html = html.replace(/(<blockquote>.*<\/blockquote>\n?)+/g, (match) => match);
+
+      // Line breaks (convert double newlines to paragraphs)
+      html = html.replace(/\n\n+/g, '</p><p>');
+      html = `<p>${html}</p>`;
+
+      // Clean up empty paragraphs
+      html = html.replace(/<p><\/p>/g, '');
+      html = html.replace(/<p>\s*<\/p>/g, '');
+
+      // Fix paragraphs around block elements
+      html = html.replace(/<p>(<h[1-6]>)/g, '$1');
+      html = html.replace(/(<\/h[1-6]>)<\/p>/g, '$1');
+      html = html.replace(/<p>(<pre>)/g, '$1');
+      html = html.replace(/(<\/pre>)<\/p>/g, '$1');
+      html = html.replace(/<p>(<ul>)/g, '$1');
+      html = html.replace(/(<\/ul>)<\/p>/g, '$1');
+      html = html.replace(/<p>(<ol>)/g, '$1');
+      html = html.replace(/(<\/ol>)<\/p>/g, '$1');
+      html = html.replace(/<p>(<blockquote>)/g, '$1');
+      html = html.replace(/(<\/blockquote>)<\/p>/g, '$1');
+      html = html.replace(/<p>(<hr>)/g, '$1');
+      html = html.replace(/(<hr>)<\/p>/g, '$1');
+
+      // Single line breaks
+      html = html.replace(/\n/g, '<br>');
+
+      return html;
+    };
+
+    // Toast Functions
+    const openToast = (item) => {
+      if (!item) return;
+      titleEl.textContent = item.title || '';
+      metaEl.textContent = item.year || item.category || '';
+
+      // Handle markdown content rendering
+      let content = item.body || item.content || item.summary || '';
+      bodyEl.innerHTML = parseMarkdown(content);
+
+      overlay.classList.add('active');
+      document.body.classList.add('toast-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      closeBtn.focus();
+    };
+
+    const closeToast = () => {
+      overlay.classList.remove('active');
+      document.body.classList.remove('toast-open');
+      overlay.setAttribute('aria-hidden', 'true');
+    };
+
+    // Search and Filter Functions
+    const filterContent = () => {
+      filteredContent = allContent.filter(item => {
+        const matchesCategory = currentCategory === 'all' || item.category === currentCategory;
+        const matchesSearch = !searchQuery ||
+          item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (item.summary && item.summary.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          (item.subcategory && item.subcategory.toLowerCase().includes(searchQuery.toLowerCase()));
+        return matchesCategory && matchesSearch;
+      });
+      renderContent();
+    };
+
+    const renderContent = () => {
+      if (filteredContent.length === 0) {
+        contentList.innerHTML = `
+          <div style="text-align: center; padding: 32px; color: var(--text-muted);">
+            ${allContent.length === 0 ? 'No content available yet' : 'No matching content found'}
+          </div>
+        `;
+        itemCount.textContent = '';
+        return;
+      }
+
+      itemCount.textContent = `(${filteredContent.length})`;
+
+      // Build tree structure
+      const tree = {};
+      filteredContent.forEach(item => {
+        if (!tree[item.category]) {
+          tree[item.category] = {};
+        }
+        const subcat = item.subcategory || '_root';
+        if (!tree[item.category][subcat]) {
+          tree[item.category][subcat] = [];
+        }
+        tree[item.category][subcat].push(item);
+      });
+
+      // Render tree
+      let html = '<div class="tree-view">';
+      Object.keys(tree).sort().forEach(category => {
+        html += `<div class="tree-category">`;
+        html += `<div class="tree-category-header" data-category="${category}">`;
+        html += `<span class="tree-icon">▶</span>`;
+        html += `<span class="tree-label">${category}</span>`;
+        html += `<span class="tree-count">${Object.values(tree[category]).flat().length}</span>`;
+        html += `</div>`;
+        html += `<div class="tree-children" style="display: none;">`;
+
+        Object.keys(tree[category]).sort().forEach(subcat => {
+          const items = tree[category][subcat];
+          if (subcat !== '_root') {
+            html += `<div class="tree-subcategory">`;
+            html += `<div class="tree-subcategory-header" data-subcat="${subcat}">`;
+            html += `<span class="tree-icon">▶</span>`;
+            html += `<span class="tree-label">${subcat}</span>`;
+            html += `<span class="tree-count">${items.length}</span>`;
+            html += `</div>`;
+            html += `<div class="tree-items" style="display: none;">`;
+            items.forEach(item => {
+              html += `<a href="#" class="tree-item content-item" data-slug="${item.slug}">`;
+              html += `<span class="tree-file-icon">📄</span>`;
+              html += `<span class="tree-item-title">${item.title}</span>`;
+              html += `</a>`;
+            });
+            html += `</div></div>`;
+          } else {
+            items.forEach(item => {
+              html += `<a href="#" class="tree-item content-item" data-slug="${item.slug}">`;
+              html += `<span class="tree-file-icon">📄</span>`;
+              html += `<span class="tree-item-title">${item.title}</span>`;
+              html += `</a>`;
+            });
+          }
+        });
+
+        html += `</div></div>`;
+      });
+      html += '</div>';
+
+      contentList.innerHTML = html;
+
+      // Attach click handlers for items
+      document.querySelectorAll('.content-item').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const slug = link.dataset.slug;
+          const item = allContent.find(i => i.slug === slug);
+          if (item) openToast(item);
+        });
+      });
+
+      // Attach toggle handlers for categories
+      document.querySelectorAll('.tree-category-header').forEach(header => {
+        header.addEventListener('click', (e) => {
+          const children = header.nextElementSibling;
+          const icon = header.querySelector('.tree-icon');
+          if (children.style.display === 'none') {
+            children.style.display = 'block';
+            icon.textContent = '▼';
+          } else {
+            children.style.display = 'none';
+            icon.textContent = '▶';
+          }
+        });
+      });
+
+      // Attach toggle handlers for subcategories
+      document.querySelectorAll('.tree-subcategory-header').forEach(header => {
+        header.addEventListener('click', (e) => {
+          const items = header.nextElementSibling;
+          const icon = header.querySelector('.tree-icon');
+          if (items.style.display === 'none') {
+            items.style.display = 'block';
+            icon.textContent = '▼';
+          } else {
+            items.style.display = 'none';
+            icon.textContent = '▶';
+          }
+        });
+      });
+    };
+
+    // Load Content Index
+    const loadContentIndex = async () => {
+      try {
+        const response = await fetch(contentIndexUrl);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.items && Array.isArray(data.items)) {
+            allContent = data.items;
+            filteredContent = [...allContent];
+            renderContent();
+            console.log(`✅ Loaded ${allContent.length} content items`);
+            return;
+          }
+        }
+      } catch (error) {
+        console.warn('Content index not available yet:', error);
+      }
+
+      // Show empty state
+      contentList.innerHTML = `
+        <div style="text-align: center; padding: 32px; color: var(--text-muted);">
+          <div style="font-size: 15px; margin-bottom: 8px;">Content index not generated yet</div>
+          <div style="font-size: 13px;">Run the CI/CD pipeline or generate manually with: python OpsProject/scripts/generate-index.py</div>
+        </div>
+      `;
+      itemCount.textContent = '';
+    };
+
+    // Event Listeners
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      filterContent();
+    });
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCategory = btn.dataset.category;
+        filterContent();
+      });
+    });
+
+    // Handle existing posts (Selected Writings)
+    document.querySelectorAll('.item[data-slug]').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const slug = link.dataset.slug;
+        const post = posts.find((p) => p.slug === slug);
+        if (post) openToast(post);
+      });
+    });
+
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeToast();
+    });
+    closeBtn.addEventListener('click', closeToast);
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeToast();
+    });
+
+    // Load Posts
+    fetch(postsUrl)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (Array.isArray(data) && data.length) {
+          posts = data;
+        } else if (data && Array.isArray(data.posts) && data.posts.length) {
+          posts = data.posts;
+        }
+      })
+      .catch(() => {});
+
+    // Initialize
+    loadContentIndex();
+  </script>
+</body>
+</html>

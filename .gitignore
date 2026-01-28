@@ -2,4 +2,5 @@
 .vscode
 .zed
 *.json
+!OpsProject/site/content-index.json
 .vs

@@ -1,0 +1,113 @@
+pipeline {
+  agent any
+
+  environment {
+    PROJECT_NAME   = "ops-blog"
+    IMAGE_NAME     = "ops-blog"
+    IMAGE_TAG      = "${env.BUILD_NUMBER}"
+    REGISTRY       = "your-dockerhub-user"
+    TF_DIR         = "terraform"
+    TF_PLAN_FILE   = "tfplan.out"
+  }
+
+  options {
+    ansiColor('xterm')
+    timestamps()
+    disableConcurrentBuilds()
+  }
+
+  triggers {
+    // Example: pollSCM('H/15 * * * *') or remove for webhooks
+  }
+
+  stages {
+
+    stage('Checkout') {
+      steps {
+        checkout scm
+      }
+    }
+
+    stage('Lint/Check') {
+      steps {
+        sh 'chmod +x scripts/check.sh || true'
+        sh './scripts/check.sh'
+      }
+    }
+
+    stage('Build Image') {
+      steps {
+        sh 'chmod +x scripts/build.sh || true'
+        sh './scripts/build.sh'
+      }
+    }
+
+    stage('Smoke Test (Container)') {
+      steps {
+        sh '''
+          CONTAINER_ID=$(docker run -d -p 8080:80 ops-blog:local)
+          sleep 3
+          curl -f http://localhost:8080 || (docker logs "$CONTAINER_ID" && false)
+          docker rm -f "$CONTAINER_ID"
+        '''
+      }
+    }
+
+    stage('Push Image') {
+      when {
+        branch 'main'
+      }
+      environment {
+        REGISTRY_CRED = credentials('dockerhub-credentials-id')
+      }
+      steps {
+        sh '''
+          echo "$REGISTRY_CRED_PSW" | docker login -u "$REGISTRY_CRED_USR" --password-stdin
+          docker tag ops-blog:local ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
+          docker push ${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}
+        '''
+      }
+    }
+
+    stage('Terraform Init') {
+      steps {
+        dir(TF_DIR) {
+          sh 'terraform init -input=false'
+        }
+      }
+    }
+
+    stage('Terraform Plan') {
+      steps {
+        dir(TF_DIR) {
+          sh "terraform plan -input=false -out=${TF_PLAN_FILE}"
+        }
+      }
+      post {
+        always {
+          dir(TF_DIR) {
+            archiveArtifacts artifacts: TF_PLAN_FILE, fingerprint: true
+          }
+        }
+      }
+    }
+
+    stage('Terraform Apply') {
+      when {
+        branch 'main'
+      }
+      steps {
+        input message: 'Approve Terraform apply?', ok: 'Apply'
+        dir(TF_DIR) {
+          sh "terraform apply -input=false ${TF_PLAN_FILE}"
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      cleanWs()
+    }
+  }
+}
