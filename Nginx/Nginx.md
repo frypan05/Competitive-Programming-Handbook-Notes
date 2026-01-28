@@ -323,6 +323,6 @@ location ~ \.(mp3|mp4)$ {
 * **Access Logs:** `/var/log/nginx/access.log`
 * **Error Logs:** `/var/log/nginx/error.log`
 
-Stay Hungry
+Stay Hungry, Stay Foolish!
 
 **Official Documentation:** [Nginx Docs](https://nginx.org/en/docs/)
