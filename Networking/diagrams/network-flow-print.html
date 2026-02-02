@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Network Flow — Printable</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#0b2545;
+      --muted:#475569;
+      --accent:#0b63d0;
+      --box:#f8fafc;
+      --border:#e6eefc;
+      --mono: "Roboto Mono", "Courier New", monospace;
+    }
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    .container{max-width:1100px;margin:24px auto;padding:20px}
+    header{display:flex;align-items:flex-start;gap:18px}
+    h1{margin:0;font-size:22px}
+    .meta{color:var(--muted);font-size:13px;margin-top:6px}
+    .controls{margin-left:auto}
+    button{background:var(--accent);color:white;border:0;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:600}
+    .diagram-frame{border:1px solid var(--border);padding:12px;margin-top:18px;background:var(--box);display:flex;align-items:center;justify-content:center}
+    .notes{margin-top:22px}
+    .section{padding:14px;background:#fff;border:1px solid var(--border);border-radius:8px;margin-bottom:14px}
+    .section h2{margin:0 0 8px 0;font-size:16px;color:var(--accent)}
+    .section p{margin:6px 0;color:var(--muted);line-height:1.45}
+    .flow-list{counter-reset:step; margin-left:0;padding-left:0}
+    .flow-list li{list-style:none;padding:10px 0;border-top:1px dashed #eef3fb}
+    .flow-list li:before{counter-increment:step;content:counter(step);display:inline-block;width:28px;height:28px;line-height:28px;text-align:center;background:var(--accent);color:#fff;border-radius:50%;margin-right:12px;font-weight:700}
+    .subtle{font-size:13px;color:#335a8a}
+    .code{background:#0b2545;color:#fff;padding:6px 8px;border-radius:6px;font-family:var(--mono);font-size:13px;display:inline-block}
+    .two-col{display:grid;grid-template-columns:1fr 420px;gap:18px}
+    .legend{font-size:13px;color:var(--muted);margin-top:6px}
+    footer{margin-top:28px;color:var(--muted);font-size:13px}
+    /* Print styles */
+    @media print{
+      body{background:white;color:#000}
+      .controls, .diagram-frame { page-break-inside: avoid; }
+      .diagram-frame img, .diagram-frame object, .diagram-frame svg { max-width:100%; height:auto; }
+      .two-col{grid-template-columns:1fr; }
+      button { display:none }
+      header { page-break-after: avoid; }
+      .section{page-break-inside: avoid}
+      footer{page-break-before: always}
+    }
+    /* Responsive */
+    @media (max-width:980px){ .two-col{grid-template-columns:1fr} .container{padding:12px} }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>Network Flow — DNS → IP → TCP/TLS → HTTP → CDN / LB → Origin</h1>
+        <div class="meta">Printable guide with the embedded diagram and detailed per-step flow states (IP addressing, TCP/IP, DNS, HTTPS, load balancing, firewalls, VPN/tunneling, proxies, CDN, SSH, PKI).</div>
+      </div>
+      <div class="controls">
+        <button id="printBtn">Print / Save as PDF</button>
+      </div>
+    </header>
+
+    <div class="diagram-frame" aria-label="Network flow diagram">
+      <!-- Embed the SVG located in same directory. If browser blocks, open directly in same folder. -->
+      <object data="network-flow.svg" type="image/svg+xml" aria-label="Network Flow SVG" style="width:100%;height:740px;max-width:1200px;">
+        <img src="network-flow.svg" alt="Network Flow diagram" style="max-width:100%;height:auto"/>
+      </object>
+    </div>
+
+    <div class="two-col notes">
+      <div>
+        <section class="section">
+          <h2>Overview (end-to-end)</h2>
+          <p class="subtle">This document explains the step-by-step states that a client request traverses when communicating with a public service on the Internet. It covers the resolution of a domain to IP, routing across the Internet, establishing reliable and secure connections using TCP and TLS, application-layer HTTP flow, and the network and security infrastructure that sits between the client and origin (CDN, load balancer, firewall, VPN, proxies, etc.).</p>
+          <ol class="flow-list">
+            <li>
+              DNS resolution — client checks caches (browser, OS, recursive) then queries recursive resolver. Transport: UDP/53 (small queries), TCP/53 fallback, DoH (HTTPS) or DoT (TLS/853) for encrypted DNS.
+              <div class="subtle">Key behavior: TTL-based caching, CNAME chaining, DNSSEC validation, glue records for delegation.</div>
+            </li>
+            <li>
+              Local network & NAT — Client has private IP (RFC1918). ARP/NDP resolves MAC addresses on the LAN. When leaving the LAN, source addresses are translated by NAT (PAT) to a public IP + ephemeral port.
+              <div class="subtle">Key behavior: NAT mapping table, ephemeral port exhaustion risk, conntrack state for return traffic.</div>
+            </li>
+            <li>
+              Internet routing — IP packets traverse ISP networks and BGP-routed AS paths. Each router uses longest-prefix match for next hop. TTL is decremented; PMTU is considered to avoid fragmentation.
+              <div class="subtle">Key behavior: BGP route selection, route propagation, anycast routing for CDNs.</div>
+            </li>
+            <li>
+              TCP connection establishment — Standard 3-way handshake (SYN / SYN-ACK / ACK). TCP state machine transitions from CLOSED → SYN-SENT → ESTABLISHED. Flow control (window), congestion control (slow-start, cwnd), and retransmission are handled by TCP.
+            </li>
+            <li>
+              TLS handshake (if HTTPS) — ClientHello → ServerHello → Certificate, key exchange (ECDHE), derive symmetric keys, secure channel established. Certificate chain validated against trust anchors with OCSP/CRL checks or stapling.
+            </li>
+            <li>
+              HTTP request/response — Application-layer request over TLS-encrypted stream. HTTP/1.1: persistent connections; HTTP/2: multiplexed streams; HTTP/3: QUIC over UDP with built-in security+transport.
+            </li>
+            <li>
+              CDN / Edge handling — DNS or anycast routes client to nearest edge. Edge returns cached content on cache-hit; on cache-miss, edge fetches from origin, may terminate TLS, and apply WAF rules.
+            </li>
+            <li>
+              Load balancer & reverse proxy — L4 (NLB) or L7 (ALB) chooses backend hosts using algorithms and health checks; may perform TLS termination and add headers (X-Forwarded-For or PROXY protocol).
+            </li>
+            <li>
+              Firewall & security groups — Packet is inspected against ACLs or stateful SGs. Stateful devices track session state (conntrack) allowing return traffic. DPI/WAF may perform L7 inspection.
+            </li>
+            <li>
+              Origin processing — Application server handles request, may communicate with private services (DB, cache) over internal network; responses go back through the same chain in reverse.
+            </li>
+          </ol>
+        </section>
+
+        <section class="section" id="dns-detail">
+          <h2>DNS — In-depth</h2>
+          <p class="subtle">Flow states</p>
+          <p><strong>1 — Local caches</strong>: Browser and OS maintain caches. If a valid record exists (within TTL), no external query is needed.</p>
+          <p><strong>2 — Stub resolver → Recursive</strong>: The client sends a query to configured resolver (ISP or public resolver). Transport typically UDP/53. Large responses or DNSSEC responses may use TCP/53.</p>
+          <p><strong>3 — Iterative resolution</strong>: Recursive resolver queries root → TLD → authoritative NS. It may cache intermediary results and return final A/AAAA/CNAME records and TTLs.</p>
+          <p class="subtle">Other considerations: Geo-DNS, anycast authoritative servers, DNS-based load balancing (multiple A records), DNSSEC with RRSIG validation, and encrypted DNS (DoH/DoT) to prevent on-path snooping.</p>
+        </section>
+
+        <section class="section" id="ip-routing">
+          <h2>IP Addressing & Routing (Network Layer)</h2>
+          <p><strong>Addresses</strong>: IPv4 (32-bit) and IPv6 (128-bit). Subnetting via CIDR determines network/prefix length.</p>
+          <p><strong>On-LAN resolution</strong>: ARP (IPv4) / Neighbor Discovery Protocol (IPv6) map IP → MAC. Frames are transported via the data-link layer (Ethernet).</p>
+          <p><strong>Next hop & routing</strong>: Packets destined outside the subnet are forwarded to default gateway. Routers use forwarding tables and perform longest-prefix match.</p>
+          <p class="subtle">NAT: private address spaces are mapped to public IPs + ports (PAT). Careful with protocols that embed IPs in payloads (FTP) — require application-layer helpers.</p>
+        </section>
+
+        <section class="section" id="tcp-tls">
+          <h2>TCP & TLS — Connection States</h2>
+          <p><strong>TCP handshake</strong>: SYN → SYN-ACK → ACK. After ESTABLISHED, reliable byte-stream semantics apply (seq/ack, congestion control, retransmits).</p>
+          <p><strong>TCP teardown</strong>: FIN/ACK exchange; TIME_WAIT exists on the side that initiated close to allow late packets to be handled.</p>
+          <p><strong>TLS (1.3 simplified)</strong>: ClientHello (SNI, supported ciphers) → ServerHello + Certificate → Key exchange (ECDHE) → Encrypted application data. TLS provides confidentiality, integrity, and server authentication. Certificate validation chain must be anchored to a trusted root.</p>
+          <p class="subtle">TLS termination choices: edge termination (LB or CDN), re‑encrypt to origin, or end‑to‑end TLS. Termination affects access to plaintext for WAFs and logging.</p>
+        </section>
+      </div>
+
+      <aside>
+        <section class="section">
+          <h2>Load Balancer & Health Checks</h2>
+          <p class="subtle">L4 vs L7</p>
+          <p><strong>L4</strong>: Operates at transport; forwards TCP connections using hashing methods. Often used for raw TCP or UDP services and for preserving client IP at the destination.</p>
+          <p><strong>L7</strong>: Inspects HTTP headers and routes by host/path. Can perform advanced routing, TLS termination, content-based routing, header rewrites, and WAF integration.</p>
+          <p><strong>Health checks</strong>: Periodic probes (TCP, HTTP) to backends decide whether to send traffic to a host. Ungraceful shutdowns require connection draining to avoid dropped requests.</p>
+        </section>
+
+        <section class="section">
+          <h2>CDN (Edge Caching)</h2>
+          <p>CDNs use anycast and geo-routing to bring content near clients. Cache keys determine when a cached object is a hit (host+path+vary headers).</p>
+          <p>Cache-control headers, ETag/If-None-Match, and TTLs govern freshness. CDN edges may perform TLS termination and WAF filtering; on cache-miss they forward to origin.</p>
+        </section>
+
+        <section class="section">
+          <h2>Firewall & Security Groups</h2>
+          <p>Firewalls reject or allow traffic based on rules. Stateful systems track connections and permit return traffic automatically. Network ACLs are stateless and must explicitly allow return traffic.</p>
+        </section>
+
+        <section class="section">
+          <h2>Proxies & CONNECT</h2>
+          <p>Forward proxies handle outbound client traffic; reverse proxies sit before origin servers. For HTTPS via forward proxy, the CONNECT method establishes a TCP tunnel through the proxy and allows end-to-end TLS unless intercepted (TLS termination at proxy with certificate injection).</p>
+        </section>
+
+        <section class="section">
+          <h2>VPN & Tunneling</h2>
+          <p>VPNs (IPsec, WireGuard, OpenVPN) create encrypted tunnels between endpoints. Packets are encapsulated and transported across public networks. Key exchange and authentication (certs/PSKs/keys) occur during tunnel setup. Be mindful of MTU and fragmentation when encapsulating packets.</p>
+        </section>
+
+        <section class="section">
+          <h2>SSH & Admin Access</h2>
+          <p>SSH uses a TCP connection and its own key-exchange and authentication. Host keys are validated by clients via known_hosts. SSH supports remote port forwarding and SOCKS proxies, enabling secure tunnels for administrative tasks.</p>
+        </section>
+
+        <section class="section">
+          <h2>PKI & SSL Cert Lifecycle</h2>
+          <p>Certificate issuance: generate private key + CSR → CA verifies domain ownership → CA issues certificate chain including intermediates → server presents chain at TLS handshake. Clients validate chain, check expiry, and optionally check revocation (OCSP/CRL). Use OCSP stapling to reduce client-side lookups. Renew and rotate before expiry.</p>
+        </section>
+      </aside>
+    </div>
+
+    <section class="section">
+      <h2>Concrete End-to-End Example (HTTPS request)</h2>
+      <ol class="flow-list">
+        <li>
+          Browser requests https://app.example.com → checks DNS cache; no entry → queries recursive resolver (DoH or UDP/53).
+        </li>
+        <li>
+          Resolver returns an anycast IP for a CDN edge. Browser opens TCP to that IP:443 (SYN).
+        </li>
+        <li>
+          TLS handshake: ClientHello (SNI=app.example.com) → edge returns Certificate. Client validates chain and derives keys.
+        </li>
+        <li>
+          Browser sends GET; CDN edge is a cache miss → forwards to origin ALB (may re-encrypt).
+        </li>
+        <li>
+          ALB performs health check-based routing to a healthy backend, forwards traffic (may set X-Forwarded-For).
+        </li>
+        <li>
+          Backend app receives request, queries DB in private subnet (mTLS optional). Response flows back through ALB → CDN → client.
+        </li>
+      </ol>
+    </section>
+
+    <footer>
+      <div class="legend"><strong>Notes:</strong> When printing, set "Scale: 100%" and include background graphics for best results. If the embedded SVG does not render in print, open the SVG file directly in your browser and print that file. This page is intended as a single-page printable reference—sections are sized to avoid mid-section page breaks on common printers.</div>
+      <div style="margin-top:8px">File: <span class="code">Networking/diagrams/network-flow-print.html</span> — Includes &lt;object&gt; reference to <span class="code">network-flow.svg</span> (same directory).</div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('printBtn').addEventListener('click', function(){
+      // Expand the SVG object's width to available width for print-friendly rendering, then print.
+      // Note: Some browsers require opening the SVG separately for best PDF fidelity.
+      window.print();
+    });
+    // Accessibility hint: focus onto the printable content
+    document.querySelector('.container').setAttribute('tabindex','-1');
+  </script>
+</body>
+</html>
