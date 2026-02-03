@@ -23,6 +23,7 @@ CONTENT_DIRS = {
     "Terraform": BASE_DIR / "DevOps" / "Terraform",
     "AWS": BASE_DIR / "DevOps" / "Cloud" / "AWS",
     "Jenkins": BASE_DIR / "DevOps" / "jenkins-df-.sh",
+    "Github Actions": BASE_DIR / "DevOps" / "Github Actions",
     "Networking": BASE_DIR / "Networking",
     "Linux": BASE_DIR / "Linux",
     "Nginx": BASE_DIR / "Nginx",
