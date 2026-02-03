@@ -210,6 +210,57 @@
 
 ---
 
+### AWS Deep Dive
+- What is NACL in AWS? What is the difference between security group and NACL?
+  - **Answer:** NACL (Network Access Control List) is a stateless firewall operating at the subnet level with numbered allow/deny rules for inbound and outbound traffic; Security Groups are stateful, instance-level firewalls with only allow rules that automatically permit return traffic. NACLs evaluate rules in order and apply to all instances in a subnet, while SGs are attached per ENI and require explicit outbound rules only for new connections.
+- What is an EC2 instance store? How does EC2 instance store differ from EBS volume?
+  - **Answer:** Instance store provides ephemeral block storage physically attached to the host, offering high IOPS but data is lost on stop/termination; EBS volumes are network-attached persistent storage that survive instance lifecycle events and support snapshots, encryption, and volume types (gp3, io2, etc.).
+- How many types of storage classes in S3?
+  - **Answer:** S3 Standard, S3 Intelligent-Tiering, S3 Standard-IA, S3 One Zone-IA, S3 Glacier Instant Retrieval, S3 Glacier Flexible Retrieval, S3 Glacier Deep Archive, and S3 Outposts; choose based on access frequency and retrieval time requirements.
+- What is the use of m5.2xlarge instance type?
+  - **Answer:** m5.2xlarge is a general-purpose instance with 8 vCPUs and 32 GiB RAM balanced for compute/memory workloads like web servers, app servers, small databases, and development environments.
+- How many types of EC2 instance types in AWS?
+  - **Answer:** AWS offers seven main families: General Purpose (T, M), Compute Optimized (C), Memory Optimized (R, X, High Memory), Accelerated Computing (P, G, Inf, Trn), Storage Optimized (I, D, H), and HPC Optimized (Hpc); each family has multiple generations and sizes.
+- What is CDN in AWS?
+  - **Answer:** Amazon CloudFront is AWS's CDN that caches content at global edge locations to reduce latency, offload origin traffic, and deliver static/dynamic content, streaming media, and APIs with SSL/TLS support and WAF integration.
+- What type of database is DynamoDB? Is it relational or not?
+  - **Answer:** DynamoDB is a fully managed NoSQL key-value and document database offering single-digit millisecond performance, automatic scaling, and flexible schemas—not relational, so no joins or complex queries like SQL databases.
+- What type of DB is PostgreSQL?
+  - **Answer:** PostgreSQL is an open-source relational database (RDBMS) supporting ACID transactions, complex queries, joins, foreign keys, and advanced features like JSONB, full-text search, and extensions.
+
+### Jenkins Deep Dive
+- How do you store secrets in Jenkins?
+  - **Answer:** Use Jenkins Credentials plugin to store secrets (username/password, SSH keys, tokens) encrypted at rest; reference them in pipelines via `credentials()` or `withCredentials` blocks, and integrate external vaults like HashiCorp Vault or AWS Secrets Manager for enhanced security.
+- How to implement/setup SonarQube in your Jenkins pipeline?
+  - **Answer:** Install SonarQube Scanner plugin, configure SonarQube server in Jenkins global settings with authentication token, add a pipeline stage calling `withSonarQubeEnv('SonarQube') { sh 'mvn sonar:sonar' }`, and optionally use Quality Gates with `waitForQualityGate()` to fail builds on threshold violations.
+
+### Docker & Kubernetes Deep Dive
+- What is the difference between CMD & ENTRYPOINT in Dockerfile?
+  - **Answer:** `ENTRYPOINT` defines the fixed executable that always runs (ideal for container's main process), while `CMD` supplies default arguments that can be overridden at runtime with `docker run`; combining both lets you keep behavior predictable yet configurable.
+- What is the purpose of a base image?
+  - **Answer:** A base image provides the foundational OS layer and runtime dependencies (e.g., `alpine`, `ubuntu`, `python:3.11`) that subsequent Dockerfile instructions build upon, enabling consistency, smaller layer counts, and reusability across applications.
+- What is the K8s architecture? Components of master node & worker node.
+  - **Answer:** Master (control plane) runs API server (entry point), etcd (state store), scheduler (Pod placement), and controller manager (reconciliation loops); worker nodes run kubelet (Pod lifecycle agent), kube-proxy (network rules), and container runtime (Docker/containerd) to execute workloads.
+- If pod is CrashLoopBackOff, how to debug this?
+  - **Answer:** Kubernetes restarts the failing container with exponential backoff due to repeated crashes; debug with `kubectl describe pod` for events, `kubectl logs <pod> --previous` for crash logs, verify image/command, check resource limits, validate ConfigMaps/Secrets, and exec into init containers if applicable.
+
+### Terraform Deep Dive
+- How to structure modules/code in Terraform?
+  - **Answer:** Organize with a root module calling child modules stored in `modules/` directories; each module contains `main.tf` (resources), `variables.tf` (inputs), `outputs.tf` (exports), and optionally `versions.tf` (provider constraints); use remote modules for shared infrastructure patterns and workspaces or separate state files per environment.
+- What is the .tfstate file in Terraform? Where is the .tfstate file stored?
+  - **Answer:** The state file maps Terraform configuration to real-world resource IDs and metadata, enabling plan/apply operations; store locally by default (`terraform.tfstate`) or in remote backends (S3 + DynamoDB, Terraform Cloud, Azure Blob) with encryption and locking for team collaboration.
+- What does the terraform init command do?
+  - **Answer:** `terraform init` initializes the working directory by downloading provider plugins, setting up the backend for state storage, and installing child modules; run it after cloning a repo or changing provider/backend configuration.
+
+### Linux Deep Dive
+- Suppose I have a random logs file, I want to wipe out or delete the logs, what will be the one-liner command to delete the logs?
+  - **Answer:** To truncate (clear contents) without deleting the file use `> /path/to/logfile.log` or `truncate -s 0 /path/to/logfile.log`; to delete the file entirely run `rm /path/to/logfile.log`; for mass deletion use `find /var/log -name "*.log" -type f -delete`.
+- What is the command to check the listening port?
+  - **Answer:** Use `sudo ss -ltnp`, `sudo netstat -tulpn`, or `sudo lsof -i -P -n | grep LISTEN` to display all listening TCP/UDP ports with associated process IDs and names.
+
+---
+
+
 ## DevOps Interview Notes
 
 1. **Terraform State File** – Stores mapping between Terraform config and real infrastructure.
