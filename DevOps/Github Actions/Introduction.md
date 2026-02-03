@@ -1,14 +1,14 @@
-# **Foundations, Use Cases, and Core Architecture**
+# Introduction
 
 ---
 
-## **I. Introduction to GitHub Actions**
+## I. GitHub Actions
 
 * **Definition:** A comprehensive platform designed to automate **Software Development Workflows**.
 * **The CI/CD Misconception:** While commonly used for Continuous Integration and Continuous Deployment (CI/CD), GitHub Actions is not *just* a CI/CD tool. CI/CD is simply one specific type of workflow that can be automated within the platform.
 * **Purpose:** To eliminate manual, time-consuming, and error-prone organizational tasks, allowing developers to focus on programming and feature development.
 
-## **II. Developer Workflow Use Cases**
+## II. Developer Workflow Use Cases
 
 Developer workflows encompass the various organizational and management tasks involved in maintaining a repository, particularly in Open Source projects.
 
@@ -26,7 +26,7 @@ Developer workflows encompass the various organizational and management tasks in
   * Adjusting version tags (semantic versioning).
   * Building artifacts (libraries, binaries) for the new version.
 
-## **III. Basic Concepts & Components**
+## III. Basic Concepts & Components
 
 GitHub Actions operates on a simple trigger-response architecture.
 
@@ -39,7 +39,7 @@ GitHub Actions operates on a simple trigger-response architecture.
   * Executing a test script.
 * **Workflows (The "Chain"):** A workflow is the automated process (configured via a YAML file) that consists of one or more jobs and is triggered by an event. It represents the entire chain of actions from start to finish.
 
-## **IV. GitHub Actions for CI/CD**
+## IV. GitHub Actions for CI/CD
 
 * **Integration Advantage:** Because the tool is hosted directly within GitHub, there is no need to set up or manage third-party CI/CD servers (like Jenkins). It is natively integrated with the code repository.
 * **Ease of Use:** Designed specifically for developers to manage pipelines without requiring a dedicated DevOps engineer for setup and maintenance.
@@ -60,7 +60,7 @@ GitHub Actions operates on a simple trigger-response architecture.
 
 ---
 
-### **Key Takeaways**
+### Key Takeaways
 
 1. **Workflows > CI/CD:** Actions can handle everything from welcoming new contributors to deploying complex cloud architectures.
 2. **Event-Driven:** Every automation starts with an event (a push, an issue, a label change).

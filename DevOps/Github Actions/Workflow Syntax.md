@@ -1,8 +1,8 @@
-# **Workflow Syntax, Infrastructure, and Job Orchestration**
+# Workflow Syntax
 
 ---
 
-## **I. Understanding Action Execution (`uses` vs. `run`)**
+## I. Understanding Action Execution (`uses` vs. `run`)
 
 A workflow job consists of a sequence of steps. These steps typically do one of two things: execute a pre-defined action or run a shell command.
 
@@ -24,7 +24,7 @@ A workflow job consists of a sequence of steps. These steps typically do one of 
           run: ./gradlew build
         ```
 
-## **II. The GitHub Action Runner (Infrastructure)**
+## II. The GitHub Action Runner (Infrastructure)
 
 * **Managed Execution:** Workflows run on **GitHub-hosted runners**—servers managed by GitHub. This eliminates the need for users to maintain build servers or install plugins.
 * **Isolation Protocol:**
@@ -35,7 +35,7 @@ A workflow job consists of a sequence of steps. These steps typically do one of 
   * **Windows**
   * **macOS**
 
-## **III. Advanced Job Orchestration**
+## III. Advanced Job Orchestration
 
 By default, all jobs in a workflow file run in **parallel** to save time. However, dependencies often require a specific order.
 
@@ -66,7 +66,7 @@ By default, all jobs in a workflow file run in **parallel** to save time. Howeve
 
   * [**Context Note:** This creates a "Fan-out" effect where GitHub Actions automatically spawns a separate job instance for every combination in the matrix.]
 
-## **IV. Practical Example: Java Gradle Build Workflow**
+## IV. Practical Example: Java Gradle Build Workflow
 
 The transcript details a standard Continuous Integration (CI) flow for a Java project:
 
@@ -79,7 +79,7 @@ The transcript details a standard Continuous Integration (CI) flow for a Java pr
 
 ---
 
-### **Key Takeaways**
+### Key Takeaways
 
 1. **Modularity:** Use `uses` for complex setup tasks and `run` for project-specific shell commands.
 2. **Parallelism vs. Dependency:** Use the `needs` keyword to transform parallel jobs into a sequential pipeline.

@@ -1,8 +1,8 @@
-# **Containerization, Secrets Management, and CI Pipeline Implementation**
+# Containerization
 
 ---
 
-## **I. Building and Pushing Docker Images**
+## I. Building and Pushing Docker Images
 
 In modern DevOps, compiling code (e.g., into a `.jar` file) is usually followed by containerization to ensure portability across environments.
 
@@ -14,7 +14,7 @@ In modern DevOps, compiling code (e.g., into a `.jar` file) is usually followed 
   * [**Context Note:** If using a Windows or macOS runner, Docker may not be natively available or may require additional setup steps/actions to initialize.]
 * **Multi-line Commands:** When writing custom shell scripts in a step, use the **pipe (`|`)** symbol in YAML to group multiple commands (e.g., logging in and then building).
 
-## **II. Security: Secrets Management**
+## II. Security: Secrets Management
 
 Because workflow `.yml` files are stored in plain text within the repository, sensitive data (passwords, API keys, tokens) must never be hardcoded.
 
@@ -24,7 +24,7 @@ Because workflow `.yml` files are stored in plain text within the repository, se
   * **Syntax:** `${{ secrets.SECRET_NAME }}`
 * **Masking:** GitHub automatically masks secrets in the workflow logs. If a command prints a secret to the console, it will appear as `***`.
 
-## **III. Hands-on Demo: Pushing to Docker Hub**
+## III. Hands-on Demo: Pushing to Docker Hub
 
 The tutorial demonstrates pushing a Java Gradle application to a private Docker Hub repository.
 
@@ -37,7 +37,7 @@ The tutorial demonstrates pushing a Java Gradle application to a private Docker 
     2. **Context:** The action looks for a `Dockerfile` in the root directory by default.
     3. **Tagging:** By default, many actions tag the image with the branch name (e.g., `master`). This can be overridden using a `tags` parameter to support versioning (e.g., `v1.0.1` or the specific Git commit SHA).
 
-## **IV. The Complete CI Pipeline Summary**
+## IV. The Complete CI Pipeline Summary
 
 A standard Continuous Integration pipeline in GitHub Actions follows this logical flow:
 
@@ -49,7 +49,7 @@ A standard Continuous Integration pipeline in GitHub Actions follows this logica
 
 ---
 
-### **Key Takeaways**
+### Key Takeaways
 
 1. **Marketplace Power:** For common tasks like Docker integration, using community-vetted actions is safer and faster than writing custom shell scripts.
 2. **"Secret" Integrity:** Always use `${{ secrets.NAME }}` to keep your credentials out of your source code.
