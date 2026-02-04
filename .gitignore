@@ -4,3 +4,4 @@
 *.json
 !OpsProject/site/content-index.json
 .vs
+vercel.json
