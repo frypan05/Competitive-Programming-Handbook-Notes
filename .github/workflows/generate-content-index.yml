@@ -25,11 +25,19 @@ on:
         # Run daily at 00:00 UTC to catch any missed updates
         - cron: "0 0 * * *"
 
+# Prevent concurrent runs
+concurrency:
+    group: content-index-${{ github.ref }}
+    cancel-in-progress: true
+
 jobs:
     generate-index:
         runs-on: ubuntu-latest
         permissions:
             contents: write
+
+        # Only run this job if the commit message doesn't contain [skip ci]
+        if: "!contains(github.event.head_commit.message, '[skip ci]')"
 
         steps:
             - name: Checkout repository
@@ -65,7 +73,26 @@ jobs:
                   git config --local user.name "github-actions[bot]"
                   git add OpsProject/site/content-index.json
                   git commit -m "chore: update content index [skip ci]"
-                  git push
+
+                  # Push with retry logic to handle potential conflicts
+                  MAX_RETRIES=3
+                  RETRY_COUNT=0
+
+                  while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+                    if git push; then
+                      echo " Successfully pushed changes"
+                      break
+                    else
+                      RETRY_COUNT=$((RETRY_COUNT + 1))
+                      if [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
+                        echo " Push failed, retrying... (attempt $RETRY_COUNT/$MAX_RETRIES)"
+                        git pull --rebase
+                      else
+                        echo "❌ Failed to push after $MAX_RETRIES attempts"
+                        exit 1
+                      fi
+                    fi
+                  done
 
             - name: Upload artifact
               uses: actions/upload-artifact@v4
