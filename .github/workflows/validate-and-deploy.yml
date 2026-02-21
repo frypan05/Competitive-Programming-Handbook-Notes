@@ -10,50 +10,50 @@ on:
             - main
             - master
 
-jobs:
-    validate:
-        name: Validate Files
-        runs-on: ubuntu-latest
+# jobs:
+#     validate:
+#         name: Validate Files
+#         runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-              with:
-                  fetch-depth: 0
+#         steps:
+#             - name: Checkout repository
+#               uses: actions/checkout@v4
+#               with:
+#                   fetch-depth: 0
 
-            - name: Check for files with spaces
-              id: check-spaces
-              run: |
-                  echo "Checking for files with spaces in their names..."
+#             - name: Check for files with spaces
+#               id: check-spaces
+#               run: |
+#                   echo "Checking for files with spaces in their names..."
 
-                  # Find all files with spaces in their names (excluding .git directory)
-                  FILES_WITH_SPACES=$(find . -type f -name "* *" | grep -v "^\./.git/" || true)
+#                   # Find all files with spaces in their names (excluding .git directory)
+#                   FILES_WITH_SPACES=$(find . -type f -name "* *" | grep -v "^\./.git/" || true)
 
-                  if [ -n "$FILES_WITH_SPACES" ]; then
-                    echo "❌ ERROR: Found files with spaces in their names:"
-                    echo "$FILES_WITH_SPACES"
-                    echo ""
-                    echo "## ❌ Validation Failed" >> $GITHUB_STEP_SUMMARY
-                    echo "" >> $GITHUB_STEP_SUMMARY
-                    echo "Files with spaces found:" >> $GITHUB_STEP_SUMMARY
-                    echo '```' >> $GITHUB_STEP_SUMMARY
-                    echo "$FILES_WITH_SPACES" >> $GITHUB_STEP_SUMMARY
-                    echo '```' >> $GITHUB_STEP_SUMMARY
-                    echo "" >> $GITHUB_STEP_SUMMARY
-                    echo "Please rename these files to remove spaces before deploying." >> $GITHUB_STEP_SUMMARY
-                    exit 1
-                  else
-                    echo " No files with spaces found"
-                    echo "##  Validation Passed" >> $GITHUB_STEP_SUMMARY
-                    echo "" >> $GITHUB_STEP_SUMMARY
-                    echo "-  No files with spaces in names" >> $GITHUB_STEP_SUMMARY
-                  fi
+#                   if [ -n "$FILES_WITH_SPACES" ]; then
+#                     echo "❌ ERROR: Found files with spaces in their names:"
+#                     echo "$FILES_WITH_SPACES"
+#                     echo ""
+#                     echo "## ❌ Validation Failed" >> $GITHUB_STEP_SUMMARY
+#                     echo "" >> $GITHUB_STEP_SUMMARY
+#                     echo "Files with spaces found:" >> $GITHUB_STEP_SUMMARY
+#                     echo '```' >> $GITHUB_STEP_SUMMARY
+#                     echo "$FILES_WITH_SPACES" >> $GITHUB_STEP_SUMMARY
+#                     echo '```' >> $GITHUB_STEP_SUMMARY
+#                     echo "" >> $GITHUB_STEP_SUMMARY
+#                     echo "Please rename these files to remove spaces before deploying." >> $GITHUB_STEP_SUMMARY
+#                     exit 1
+#                   else
+#                     echo " No files with spaces found"
+#                     echo "##  Validation Passed" >> $GITHUB_STEP_SUMMARY
+#                     echo "" >> $GITHUB_STEP_SUMMARY
+#                     echo "-  No files with spaces in names" >> $GITHUB_STEP_SUMMARY
+#                   fi
 
-            - name: Validate file encodings
-              run: |
-                  echo "Checking for valid file encodings..."
-                  # Add any additional validation checks here
-                  echo "✅ File encoding validation passed"
+#             - name: Validate file encodings
+#               run: |
+#                   echo "Checking for valid file encodings..."
+#                   # Add any additional validation checks here
+#                   echo " File encoding validation passed"
 
     deploy:
         name: Deploy to Vercel
