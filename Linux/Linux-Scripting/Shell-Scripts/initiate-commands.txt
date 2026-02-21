@@ -1,0 +1,3 @@
+daksh@Nipun-PC:~/Shell-Scripts$ sed -i 's/\r$//' variable.sh
+daksh@Nipun-PC:~/Shell-Scripts$ head -1 variable.sh | od -c
+0000000   #   !   /   b   i   n   /   b   a   s   h  \n
