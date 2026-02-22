@@ -27,6 +27,7 @@ CONTENT_DIRS = {
     "Networking": BASE_DIR / "Networking",
     "Linux": BASE_DIR / "Linux",
     "Nginx": BASE_DIR / "Nginx",
+    "Origin": BASE_DIR / "Origin",
 }
 
 # Also scan root DevOps directory for general content
