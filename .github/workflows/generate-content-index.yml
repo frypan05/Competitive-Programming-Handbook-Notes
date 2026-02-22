@@ -10,6 +10,7 @@ on:
             - "Networking/**"
             - "Linux/**"
             - "Nginx/**"
+            - "Origin/**"
             - "OpsProject/scripts/generate-index.py"
     pull_request:
         branches:
@@ -20,6 +21,7 @@ on:
             - "Networking/**"
             - "Linux/**"
             - "Nginx/**"
+            - "Origin/**"
     workflow_dispatch:
     schedule:
         # Run daily at 00:00 UTC to catch any missed updates
