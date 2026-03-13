@@ -583,14 +583,14 @@ footer a:hover {
 
 /* Light theme: dark pill with white text for topic tags and inline code */
 body[data-theme="light"] .toast-body code {
-    background: #020617;
-    color: #f9fafb;
+    background: #f9fafb;
+    color: #020617;
 }
 
 /* Dark theme: keep a softer dark background with turquoise accent */
 body[data-theme="dark"] .toast-body code {
     background: #020617;
-    color: var(--accent);
+    color: #f9fafb;
 }
 
 
