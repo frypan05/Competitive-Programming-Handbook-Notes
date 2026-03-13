@@ -1,5 +1,5 @@
 /*
-QUESTION:- 
+QUESTION:-
 Construct the linked list from arr and return the head of the linked list.
 
 Example 1:
@@ -19,7 +19,7 @@ Output:
 2 4
 Explanation: Linked list for the given array will be 2->4.
 
-APPROACH:- 
+APPROACH:-
 The approach to construct a linked list from an array is as follows:
 
 1. Create the head node of the linked list using the first element of the array.

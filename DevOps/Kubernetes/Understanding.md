@@ -1,3 +1,31 @@
+
+┌─────────────────┐
+│   Your Domain   │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────────────────────────────┐
+│         Kubernetes Cluster              │
+│                                         │
+│  ┌──────────────┐    ┌──────────────┐  │
+│  │   Ingress    │◄───│ Certificate  │  │
+│  │  Controller  │    │   Resource   │  │
+│  └──────────────┘    └───────┬──────┘  │
+│                              │         │
+│                              ▼         │
+│                      ┌──────────────┐  │
+│                      │ cert-manager │  │
+│                      └───────┬──────┘  │
+│                              │         │
+└──────────────────────────────┼─────────┘
+                               │
+                               ▼
+                      ┌──────────────┐
+                      │Let's Encrypt │
+                      │      CA      │
+                      └──────────────┘
+
+
 - how does kubernetes auto scale? like who gives the permission to add more nodes to the control plane and the data plane inside the cluster? like how does it scale under high workload?
 
 1. Pod-level autoscaling (within existing nodes)
