@@ -28,7 +28,7 @@ CONTENT_DIRS = {
     "Linux": BASE_DIR / "Linux",
     "Nginx": BASE_DIR / "Nginx",
     "Origin": BASE_DIR / "Origin",
-    "Scripting Questionaire": BASE_DIR / "scripting-questionaire",
+    "Scripting Questionaire": BASE_DIR / "Scripting-Questionaire",
 }
 
 # Also scan root DevOps directory for general content
