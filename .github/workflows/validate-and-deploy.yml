@@ -14,21 +14,21 @@ on:
 #     validate:
 #         name: Validate Files
 #         runs-on: ubuntu-latest
-
+#
 #         steps:
 #             - name: Checkout repository
 #               uses: actions/checkout@v4
 #               with:
 #                   fetch-depth: 0
-
+#
 #             - name: Check for files with spaces
 #               id: check-spaces
 #               run: |
 #                   echo "Checking for files with spaces in their names..."
-
+#
 #                   # Find all files with spaces in their names (excluding .git directory)
 #                   FILES_WITH_SPACES=$(find . -type f -name "* *" | grep -v "^\./.git/" || true)
-
+#
 #                   if [ -n "$FILES_WITH_SPACES" ]; then
 #                     echo "❌ ERROR: Found files with spaces in their names:"
 #                     echo "$FILES_WITH_SPACES"
@@ -40,24 +40,24 @@ on:
 #                     echo "$FILES_WITH_SPACES" >> $GITHUB_STEP_SUMMARY
 #                     echo '```' >> $GITHUB_STEP_SUMMARY
 #                     echo "" >> $GITHUB_STEP_SUMMARY
-#                     echo "Please rename these files to remove spaces before deploying." >> $GITHUB_STEP_SUMMARY
+#                     echo "Please rename these files to remove spaces before deploying."
 #                     exit 1
 #                   else
-#                     echo " No files with spaces found"
-#                     echo "##  Validation Passed" >> $GITHUB_STEP_SUMMARY
+#                     echo "✅ No files with spaces found"
+#                     echo "## ✅ Validation Passed" >> $GITHUB_STEP_SUMMARY
 #                     echo "" >> $GITHUB_STEP_SUMMARY
-#                     echo "-  No files with spaces in names" >> $GITHUB_STEP_SUMMARY
+#                     echo "- ✅ No files with spaces in names" >> $GITHUB_STEP_SUMMARY
 #                   fi
-
+#
 #             - name: Validate file encodings
 #               run: |
 #                   echo "Checking for valid file encodings..."
 #                   # Add any additional validation checks here
-#                   echo " File encoding validation passed"
+#                   echo "✅ File encoding validation passed"
 
+jobs:
     deploy:
         name: Deploy to Vercel
-        needs: validate
         runs-on: ubuntu-latest
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
 
@@ -67,15 +67,15 @@ on:
 
             - name: Deploy to Vercel
               run: |
-                  echo " All validation checks passed"
-                  echo " Triggering Vercel deployment..."
+                  echo " Push detected on ${GITHUB_REF_NAME}"
+                  echo "Triggering Vercel deployment..."
                   echo ""
-                  echo "Vercel will now deploy this commit."
+                  echo "Vercel will deploy this commit."
 
             - name: Deployment Summary
               run: |
-                  echo "##  Deployment Triggered" >> $GITHUB_STEP_SUMMARY
+                  echo " ## Deployment Triggered" >> $GITHUB_STEP_SUMMARY
                   echo "" >> $GITHUB_STEP_SUMMARY
                   echo "- Commit: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
                   echo "- Branch: \`${{ github.ref_name }}\`" >> $GITHUB_STEP_SUMMARY
-                  echo "- All validation checks passed " >> $GITHUB_STEP_SUMMARY
+                  echo "- Trigger: Push event" >> $GITHUB_STEP_SUMMARY
