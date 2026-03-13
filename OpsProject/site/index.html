@@ -10,18 +10,43 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+
+
+
+<body data-theme="light">
+
+
+
   <div class="container">
+
     <header>
+
       <div class="profile-header">
+
         <h1>Modern Infrastructure Insights</h1>
-        <div class="status">
-          <span class="dot"></span>
-          <span class="status-text">Chase Entropy</span>
+
+        <div class="header-actions">
+          <div class="status">
+
+            <span class="dot"></span>
+
+            <span class="status-text">Chase Entropy</span>
+
+          </div>
+
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light/dark mode">
+            <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+            <span class="theme-toggle-label">Dark</span>
+          </button>
         </div>
       </div>
+
       <p class="bio" style="margin-top: 16px;">
-        Learn <strong>DevOps</strong> the docs way. Curated resources for <strong>Docker</strong>, <strong>Kubernetes</strong>, <strong>Terraform</strong>, and <strong>CI/CD</strong>. Maintained by two software engineers.
+        Learn <strong>DevOps</strong> the docs way. Curated resources for <strong>Docker</strong>, <strong>Kubernetes</strong>, <strong>Terraform</strong>, <strong>Python/ Bash Scripting</strong> and <strong>CI/CD</strong>. Maintained by two software engineers.
+      </p>
+
+      <p class="bio" style="margin-top: 16px;">
+        Works on an end to end <strong>automated</strong> data pipeline. Every <strong>commit</strong> goes through an automated testing and <strong>only deployed</strong> when every testcase <strong>passes.</strong>
       </p>
 
       <style>
@@ -50,6 +75,7 @@
           <button class="filter-btn" data-category="Nginx">Nginx</button>
           <button class="filter-btn" data-category="Linux">Linux</button>
           <button class="filter-btn" data-category="DevOps">DevOps</button>
+          <button class="filter-btn" data-category="Scripting Questionaire">Scripting Questionaire</button>
         </div>
       </section>
 
@@ -63,9 +89,13 @@
 
     </main>
 
+
     <footer style="display: flex; justify-content: space-between; align-items: center;">
-      <p>© 2026 InfraOps. Chase Entropy.</p>
+
+      <p>© 2026. Chase Entropy.</p>
+
       <a href="https://github.com/frypan05/Competitive-Programming-Handbook-Notes" target="_blank" rel="noopener" style="color: var(--text-muted); text-decoration: none; display: flex; align-items: center; gap: 6px;">
+
         <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
           <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
         </svg>
@@ -83,9 +113,50 @@
     </div>
   </div>
 
+
   <script>
+
+    // Theme toggle (light / dark)
+    (function () {
+      const root = document.documentElement;
+      const body = document.body;
+      const toggle = document.getElementById('themeToggle');
+      const storageKey = 'infra-insights-theme';
+      const preferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+
+      const applyTheme = (mode) => {
+        const icon = toggle?.querySelector('.theme-toggle-icon');
+        const label = toggle?.querySelector('.theme-toggle-label');
+        if (mode === 'light') {
+          body.setAttribute('data-theme', 'light');
+          icon && (icon.textContent = '☀');
+          label && (label.textContent = 'Light');
+        } else {
+          body.setAttribute('data-theme', 'dark');
+          icon && (icon.textContent = '☾');
+          label && (label.textContent = 'Dark');
+        }
+      };
+
+
+      let current = (typeof window !== 'undefined' && window.localStorage && window.localStorage.getItem(storageKey)) || preferred;
+
+      applyTheme(current);
+
+      if (toggle) {
+        toggle.addEventListener('click', () => {
+          current = current === 'dark' ? 'light' : 'dark';
+          if (window.localStorage) {
+            window.localStorage.setItem(storageKey, current);
+          }
+          applyTheme(current);
+        });
+      }
+    })();
+
     // Content Index Management
     const contentIndexUrl = 'content-index.json';
+
     let allContent = [];
     let filteredContent = [];
     let currentCategory = 'all';
