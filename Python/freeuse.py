@@ -1,9 +1,8 @@
-def perms(x, y, z, n):
-    return 0
-
-
 if __name__ == "__main__":
-    x = int(input())
-    y = int(input())
-    z = int(input())
     n = int(input())
+    student_marks = {}
+    for _ in range(n):
+        name, *line = input().split()
+        scores = list(map(float, line))
+        student_marks[name] = scores
+    query_name = input()

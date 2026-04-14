@@ -5,3 +5,11 @@
 !OpsProject/site/content-index.json
 .vs
 vercel.json
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
