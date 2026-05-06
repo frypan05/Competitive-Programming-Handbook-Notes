@@ -30,6 +30,7 @@ CONTENT_DIRS = {
     "Origin": BASE_DIR / "Origin",
     "Scripting Questionaire": BASE_DIR / "Scripting-Questionaire",
     "APIs": BASE_DIR / "APIs",
+    "Ngrok": BASE_DIR / "Ngrok",
 }
 
 # Also scan root DevOps directory for general content
